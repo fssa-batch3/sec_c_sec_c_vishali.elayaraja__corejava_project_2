@@ -32,9 +32,9 @@ The College Admission App makes it easy for students to apply to colleges and le
 
 ## Student_Class Table
 
-| Column         | Type         | Null | Key | Default | Extra          |
-|----------------|--------------|------|-----|---------|----------------|
-| id             | int          | NO   | PRI |         | auto_increment |
-| student_id     | int          | NO   | MUL |         |                |
-| department_id  | int          | NO   | MUL |         |                |
-| is_active      | boolean      | NO   |     | 1       |                |
+| Column         | Type         | Null | Key | Default      | Extra          |
+|----------------|--------------|------|-----|--------------|----------------|
+| id             | int          | NO   | PRI |auto_increment|                |
+| student_id     | int          | NO   | MUL |              |                |
+| department_id  | int          | NO   | MUL |              |                |
+| is_active      | boolean      | NO   |     | 1            |                |
