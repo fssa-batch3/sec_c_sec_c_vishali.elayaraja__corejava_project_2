@@ -1,5 +1,8 @@
 # College Admission App
 
+## Description
+
+The College Admission App makes it easy for students to apply to colleges and let Colleges can manage applications efficiently, access applicant data, and communicate effectively with students.
 
 ## DB TABLES
 
