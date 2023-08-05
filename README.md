@@ -1,4 +1,7 @@
-#College Admission App
+# College Admission App
+
+
+## DB TABLES
 
 ## Students Table
 
