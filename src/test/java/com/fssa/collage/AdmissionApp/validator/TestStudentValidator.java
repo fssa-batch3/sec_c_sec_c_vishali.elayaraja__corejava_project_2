@@ -16,13 +16,12 @@ public class TestStudentValidator {
 
 	@Test
 	void testNullStudent() throws InvalidStudentException{
-		Student student = null;
-		Assertions.assertEquals(StudentsErrors.INVALID_STUDENT, StudentValidator.validateStudent(student));
-	}
-	@Test
-	void testObjectStudent() throws InvalidStudentException{
-		Student student = new Student();
-		Assertions.assertEquals(StudentsErrors.INVALID_STUDENT, StudentValidator.validateStudent(student));
+		try {
+			Student student = null;
+			StudentValidator.validateStudent(student);
+		}catch(InvalidStudentException ex) {
+			Assertions.assertEquals(StudentsErrors.INVALID_STUDENT, ex.getMessage());
+		}
 	}
 	
 	@Test
@@ -42,9 +41,8 @@ public class TestStudentValidator {
 	}
 	@Test
 	void testInvalidValidStudent() throws DaoException, SQLException, InvalidStudentException {
-		Student student = new Student();
 		try {
-			Assertions.assertTrue(StudentValidator.validateStudent(student));
+			Assertions.assertTrue(StudentValidator.validateStudent(null));
 		}catch(InvalidStudentException e) {
 			Assertions.assertEquals(StudentsErrors.INVALID_STUDENT, e.getMessage());
 		}

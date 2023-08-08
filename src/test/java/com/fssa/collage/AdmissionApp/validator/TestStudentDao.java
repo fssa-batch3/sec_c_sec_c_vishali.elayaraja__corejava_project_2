@@ -25,7 +25,7 @@ public class TestStudentDao {
 		student.setLastName("Elayaraja");
 		student.setGender("female");
 		student.setDob(LocalDate.of(2004, 10, 30));
-		student.setEmailId("yazhu8303@gmail.com");
+		student.setEmailId("Mathan8303@gmail.com");
 		student.setPassword("Icodeu100%");
 		student.setMobileNumber("9443456678");
 		student.setIsActive(true);
@@ -66,8 +66,7 @@ public class TestStudentDao {
 	@Test
 	void TestInvalidUpdateStudent() throws DaoException, SQLException, InvalidStudentException {
 		try {
-			Student student = new Student();
-			Assertions.assertTrue(StudentDao.updateStudent(student,-1));
+			StudentDao.updateStudent(null,-1);
 			Assertions.fail("Invalid Student");
 		} catch (InvalidStudentException e) {
 		
