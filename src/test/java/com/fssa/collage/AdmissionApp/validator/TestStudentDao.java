@@ -25,7 +25,7 @@ public class TestStudentDao {
 		student.setLastName("Elayaraja");
 		student.setGender("female");
 		student.setDob(LocalDate.of(2004, 10, 30));
-		student.setEmailId("yazh303@gmail.com");
+		student.setEmailId("yazhu8303@gmail.com");
 		student.setPassword("Icodeu100%");
 		student.setMobileNumber("9443456678");
 		student.setIsActive(true);
@@ -52,7 +52,7 @@ public class TestStudentDao {
 		student.setLastName("Elayaraja");
 		student.setGender("female");
 		student.setDob(LocalDate.of(2004, 10, 30));
-		student.setEmailId("vishal5920@gmail.com");
+		student.setEmailId("vishali305920@gmail.com");
 		student.setPassword("Icodeu100%");
 		student.setMobileNumber("9774445668");
 		student.setIsActive(true);
@@ -80,7 +80,7 @@ public class TestStudentDao {
 	@Test
 	void testremoveStudent() throws DaoException, SQLException, InvalidStudentException {
 		
-		Assertions.assertTrue(StudentDao.removeStudent(15));
+		Assertions.assertTrue(StudentDao.removeStudent(1));
 		
 	}
 	
@@ -98,7 +98,7 @@ public class TestStudentDao {
 	void testValidfindStudentByName() throws DaoException, SQLException, InvalidStudentException  {
 
 	
-		Assertions.assertTrue(StudentDao.findStudentByName("vishali"));
+		Assertions.assertTrue(StudentDao.findStudentByName("pranaw"));
 		
 
 	}
