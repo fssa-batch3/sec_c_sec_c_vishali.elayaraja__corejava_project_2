@@ -8,6 +8,7 @@ import java.sql.Statement;
 import com.fssa.collageAdmissionApp.exception.DaoException;
 import com.fssa.collageAdmissionApp.exception.InvalidStudentException;
 import com.fssa.collageAdmissionApp.model.Student;
+import com.fssa.collageAdmissionApp.model.StudentsErrors;
 import com.fssa.collageAdmissionApp.util.ConnectionUtil;
 import com.fssa.collageAdmissionApp.validator.StudentValidator;
 
@@ -52,7 +53,7 @@ public class StudentDao {
 			StudentValidator.validateStudent(student);
 		} catch (InvalidStudentException e) {
 			e.printStackTrace();
-			throw new InvalidStudentException("Invalid Student", e);
+			throw new InvalidStudentException(StudentsErrors.INVALID_STUDENT);
 		}
 
 		try (Connection connection = ConnectionUtil.getConnection()) {

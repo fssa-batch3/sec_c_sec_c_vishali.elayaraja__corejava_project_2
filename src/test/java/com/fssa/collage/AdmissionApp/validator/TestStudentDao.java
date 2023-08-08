@@ -98,7 +98,7 @@ public class TestStudentDao {
 	void testValidfindStudentByName() throws DaoException, SQLException, InvalidStudentException  {
 
 	
-		Assertions.assertTrue(StudentDao.findStudentByName(" "));
+		Assertions.assertTrue(StudentDao.findStudentByName("vishali"));
 		
 
 	}
@@ -134,6 +134,7 @@ public class TestStudentDao {
 			StudentDao.readStudent();
 		}
 		catch(DaoException e) {
+			e.printStackTrace();
 			Assertions.assertEquals(e.getMessage(), "No Objects Found");
 		}
 		Assertions.assertTrue(true);
