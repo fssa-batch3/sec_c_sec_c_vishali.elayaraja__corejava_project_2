@@ -22,7 +22,7 @@ class TestStudentService {
 			student.setLastName("vinoth");
 			student.setGender("female");
 			student.setDob(LocalDate.of(1999, 04, 19));
-			student.setEmailId("nithu@gmail.com");
+			student.setEmailId("nithu122@gmail.com");
 			student.setPassword("Icodeu100%");
 			student.setMobileNumber("9443456678");
 			student.setIsActive(true);
@@ -51,13 +51,13 @@ class TestStudentService {
 			student.setLastName("Mohan");
 			student.setGender("female");
 			student.setDob(LocalDate.of(1999, 04, 19));
-			student.setEmailId("vin3ir980687@gmail.com");
+			student.setEmailId("vin3ir887@gmail.com");
 			student.setPassword("Icodeu100%");
 			student.setMobileNumber("9774445668");
 			student.setIsActive(true);
-			student.setId(6);
+			student.setId(7);
 			
-			Assertions.assertTrue(StudentService.updateStudent(student, 6));
+			Assertions.assertTrue(StudentService.updateStudent(student, 7));
 			
 		}
 		
@@ -76,7 +76,7 @@ class TestStudentService {
 		@Test
 		void testremoveStudent() throws DaoException, InvalidStudentException {
 			
-			Assertions.assertTrue(StudentService.removeStudent(5));
+			Assertions.assertTrue(StudentService.removeStudent(7));
 			
 		}
 		
