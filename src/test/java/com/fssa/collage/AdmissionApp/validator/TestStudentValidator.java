@@ -69,7 +69,7 @@ public class TestStudentValidator {
 	}
 	@Test
 	void testInvalidLastName() {
-		String name = null;
+		String name = "12e";
 		try {
 			Assertions.assertTrue(StudentValidator.validateLastName(name));
 		} catch (InvalidStudentException e) {
@@ -78,7 +78,7 @@ public class TestStudentValidator {
 	}
 	@Test
 	void testValidId() throws InvalidStudentException {
-		Assertions.assertTrue(StudentValidator.validateId(12));
+		Assertions.assertTrue(StudentValidator.validateId(2));
 	}
 	@Test
 	void testInvalidId() {
@@ -149,7 +149,7 @@ public class TestStudentValidator {
 	}
 	@Test
 	void testValidMobileNumber() throws InvalidStudentException {
-		String number = "8778642632";
+		String number = "8778567632";
 		Assertions.assertTrue(StudentValidator.validateMobileNumber(number));
 	}
 	@Test
