@@ -10,6 +10,7 @@ import com.fssa.collageAdmissionApp.exception.InvalidStudentException;
 import com.fssa.collageAdmissionApp.model.Student;
 import com.fssa.collageAdmissionApp.model.StudentsErrors;
 import com.fssa.collageAdmissionApp.util.ConnectionUtil;
+import com.fssa.collageAdmissionApp.util.Logger;
 import com.fssa.collageAdmissionApp.validator.StudentValidator;
 
 public class StudentDao {
@@ -24,16 +25,16 @@ public class StudentDao {
 				try (ResultSet resultSet = statement.executeQuery(query)) {
 
 					while (resultSet.next()) {
-						System.out.println("Id: " + resultSet.getInt(1));
-						System.out.println("first_name: " + resultSet.getString(2));
-						System.out.println("last_name: " + resultSet.getString(3));
-						System.out.println("gender: " + resultSet.getString(4));
-						System.out.println("dob: " + resultSet.getDate(5));
-						System.out.println("mobile_no: " + resultSet.getString(6));
-						System.out.println("email: " + resultSet.getString(7));
-						System.out.println("password: " + resultSet.getString(8));
-						System.out.println("is_active: " + resultSet.getBoolean(10));
-						System.out.println("\n");
+						Logger.info("Id: " + resultSet.getInt(1));
+						Logger.info("first_name: " + resultSet.getString(2));
+						Logger.info("last_name: " + resultSet.getString(3));
+						Logger.info("gender: " + resultSet.getString(4));
+						Logger.info("dob: " + resultSet.getDate(5));
+						Logger.info("mobile_no: " + resultSet.getString(6));
+						Logger.info("email: " + resultSet.getString(7));
+						Logger.info("password: " + resultSet.getString(8));
+						Logger.info("is_active: " + resultSet.getBoolean(10));
+						Logger.info("\n");
 
 					}
 					return true;
@@ -88,6 +89,7 @@ public class StudentDao {
 
 				pst.setString(1, student.getEmailId());
 				pst.setInt(2, id);
+				
 
 				int rows = pst.executeUpdate();
 

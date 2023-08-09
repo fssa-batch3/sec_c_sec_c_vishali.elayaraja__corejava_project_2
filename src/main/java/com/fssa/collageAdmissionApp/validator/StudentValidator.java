@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.Pattern;
 import com.fssa.collageAdmissionApp.exception.InvalidStudentException;
+import com.fssa.collageAdmissionApp.exception.ValidationException;
 import com.fssa.collageAdmissionApp.model.Student;
 import com.fssa.collageAdmissionApp.model.StudentsErrors;
 
@@ -43,7 +44,9 @@ public class StudentValidator {
 	}
 	
 	public static boolean validateLastName(String LastName) throws InvalidStudentException {
-		if (LastName == null || LastName.trim().length() <= 1) {
+		String regex =  "^[A-Za-z]{2,30}$";
+		boolean matches = Pattern.compile(regex).matcher(LastName).matches();
+		if (LastName == null || !matches) {
 			throw new InvalidStudentException(StudentsErrors.INVALID_NAME);
 
 		}
@@ -62,6 +65,7 @@ public class StudentValidator {
 		boolean matches = Pattern.compile(regex).matcher(emailId).matches();
 		if (matches) {
 			return true;
+			
 		} else {
 			throw new InvalidStudentException(StudentsErrors.INVALID_EMAIL);
 		}
@@ -113,17 +117,17 @@ public class StudentValidator {
 		}
 	}
 	
-//	public static boolean ValidateDate(LocalDate createdDate)throws ValidationException{
-//		LocalDate currentDate = LocalDate.now();
-//		if(createdDate==null) {
-//			throw new ValidationException(StudentsErrors.INVALID_DATE);
-//		}
-//		if(createdDate.isBefore(currentDate)) {
-//			throw new ValidationException(StudentsErrors.INVALID_DATE);
-//				
-//		}
-//		return true;
-//		
-//	}
+	public static boolean ValidateDate(LocalDate createdDate)throws ValidationException{
+		LocalDate currentDate = LocalDate.now();
+		if(createdDate==null) {
+			throw new ValidationException(StudentsErrors.INVALID_DATE);
+		}
+		if(createdDate.isBefore(currentDate)) {
+			throw new ValidationException(StudentsErrors.INVALID_DATE);
+				
+		}
+		return true;
+		
+	}
 	
 }

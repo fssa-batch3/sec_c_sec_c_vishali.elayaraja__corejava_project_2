@@ -17,6 +17,7 @@ public class StudentService {
 			}
 			return true;
 			
+			
 		}
 		
 		
@@ -27,7 +28,7 @@ public class StudentService {
 		}
 
 		public static boolean updateStudent(Student student, int id) throws InvalidStudentException, DaoException{
-			if (StudentValidator.validateStudent(student)) {
+			if (StudentValidator.validateStudent(student) && StudentValidator.validateId(id)) {
 				StudentDao.updateStudent(student, id);
 			}
 			return true;
