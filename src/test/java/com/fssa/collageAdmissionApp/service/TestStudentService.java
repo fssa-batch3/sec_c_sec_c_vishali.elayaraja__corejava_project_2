@@ -18,10 +18,10 @@ class TestStudentService {
 		@Test
 		void TestAddStudent() throws  SQLException, InvalidStudentException {
 			Student student = new Student();
-			student.setFirstName("nithila");
-			student.setLastName("vinoth");
+			student.setFirstName("nittishri");
+			student.setLastName("selvakumar");
 			student.setGender("female");
-			student.setDob(LocalDate.of(1999, 04, 19));
+			student.setDob(LocalDate.of(2002, 04, 19));
 			student.setEmailId("nithu122@gmail.com");
 			student.setPassword("Icodeu100%");
 			student.setMobileNumber("9443456678");
@@ -51,13 +51,13 @@ class TestStudentService {
 			student.setLastName("Mohan");
 			student.setGender("female");
 			student.setDob(LocalDate.of(1999, 04, 19));
-			student.setEmailId("vin3ir887@gmail.com");
+			student.setEmailId("vin3ir8897@gmail.com");
 			student.setPassword("Icodeu100%");
 			student.setMobileNumber("9774445668");
 			student.setIsActive(true);
 			student.setId(7);
 			
-			Assertions.assertTrue(StudentService.updateStudent(student, 7));
+			Assertions.assertTrue(StudentService.updateStudent(student, 11));
 			
 		}
 		
@@ -76,7 +76,7 @@ class TestStudentService {
 		@Test
 		void testremoveStudent() throws DaoException, InvalidStudentException {
 			
-			Assertions.assertTrue(StudentService.removeStudent(7));
+			Assertions.assertTrue(StudentService.removeStudent(10));
 			
 		}
 		
