@@ -117,7 +117,7 @@ public class TestStudentService {
 		void testValidfindStudentByName() throws DaoException, SQLException, InvalidStudentException  {
 
 		
-			Assertions.assertTrue(StudentService.findStudentByName(""));
+			Assertions.assertTrue(StudentService.findStudentByName("vinitha"));
 			
 
 		}
