@@ -6,7 +6,6 @@
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.Test;
 //
-//import com.fssa.collageAdmission.service.StudentService;
 //import com.fssa.collageAdmissionApp.dao.StudentDao;
 //import com.fssa.collageAdmissionApp.exception.DaoException;
 //import com.fssa.collageAdmissionApp.exception.InvalidStudentException;
@@ -25,7 +24,7 @@
 //		student.setLastName("Elayaraja");
 //		student.setGender("female");
 //		student.setDob(LocalDate.of(2004, 10, 30));
-//		student.setEmailId("Mathan8303@gmail.com");
+//		student.setEmailId("Mathan58303@gmail.com");
 //		student.setPassword("Icodeu100%");
 //		student.setMobileNumber("9443456678");
 //		student.setIsActive(true);
@@ -52,7 +51,7 @@
 //		student.setLastName("Elayaraja");
 //		student.setGender("female");
 //		student.setDob(LocalDate.of(2004, 10, 30));
-//		student.setEmailId("vishali305920@gmail.com");
+//		student.setEmailId("vishali30t5651920@gmail.com");
 //		student.setPassword("Icodeu100%");
 //		student.setMobileNumber("9774445668");
 //		student.setIsActive(true);
@@ -97,7 +96,7 @@
 //	void testValidfindStudentByName() throws DaoException, SQLException, InvalidStudentException  {
 //
 //	
-//		Assertions.assertTrue(StudentDao.findStudentByName("pranaw"));
+//		Assertions.assertTrue(StudentDao.findStudentByName("vishali"));
 //		
 //
 //	}

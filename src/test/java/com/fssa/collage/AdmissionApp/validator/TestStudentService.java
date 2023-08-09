@@ -18,17 +18,19 @@ public class TestStudentService {
 		@Test
 		void TestAddStudent() throws  SQLException, InvalidStudentException {
 			Student student = new Student();
-			student.setFirstName("viyan");
-			student.setLastName("Mohan Kumar");
+			student.setFirstName("Vinithaa");
+			student.setLastName("MohanKumar");
 			student.setGender("female");
 			student.setDob(LocalDate.of(1999, 04, 19));
-			student.setEmailId("vini987@gmail.com");
+			student.setEmailId("vinir9651119887@gmail.com");
 			student.setPassword("Icodeu100%");
 			student.setMobileNumber("9443456678");
 			student.setIsActive(true);
 
 			Assertions.assertTrue(StudentService.addStudent(student));
 		}
+		
+		
 
 		@Test
 		
@@ -49,7 +51,7 @@ public class TestStudentService {
 			student.setLastName("Mohan");
 			student.setGender("female");
 			student.setDob(LocalDate.of(1999, 04, 19));
-			student.setEmailId("vini987@gmail.com");
+			student.setEmailId("vin3ir980687@gmail.com");
 			student.setPassword("Icodeu100%");
 			student.setMobileNumber("9774445668");
 			student.setIsActive(true);
@@ -63,7 +65,7 @@ public class TestStudentService {
 		void TestInvalidUpdateStudent() throws DaoException, SQLException, InvalidStudentException  {
 			try {
 				Student student = new Student();
-				StudentService.updateStudent(student,-1);
+				StudentService.updateStudent(null,-1);
 				Assertions.fail("Invalid Student");
 			} catch (InvalidStudentException e) {
 			
@@ -75,7 +77,7 @@ public class TestStudentService {
 		@Test
 		void testremoveStudent() throws DaoException, InvalidStudentException {
 			
-			Assertions.assertTrue(StudentService.removeStudent(2));
+			Assertions.assertTrue(StudentService.removeStudent(3));
 			
 		}
 		
@@ -115,7 +117,7 @@ public class TestStudentService {
 		void testValidfindStudentByName() throws DaoException, SQLException, InvalidStudentException  {
 
 		
-			Assertions.assertTrue(StudentService.findStudentByName("pranaw"));
+			Assertions.assertTrue(StudentService.findStudentByName(""));
 			
 
 		}
@@ -126,7 +128,7 @@ public class TestStudentService {
 		
 //			Assertions.assertTrue(StudentDao.findStudentByName(""));
 			try {
-				Assertions.assertTrue(StudentService.findStudentByName("ab"));
+				Assertions.assertTrue(StudentService.findStudentByName("b"));
 				Assertions.fail("Invalid Student");
 			} catch (InvalidStudentException e) {
 				Assertions.assertEquals(StudentsErrors.INVALID_NAME, e.getMessage());

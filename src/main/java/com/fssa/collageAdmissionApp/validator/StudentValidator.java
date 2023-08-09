@@ -14,7 +14,7 @@ public class StudentValidator {
 		if (student == null) {
 			throw new InvalidStudentException(StudentsErrors.INVALID_STUDENT);
 		}
-		try {
+//		try {
 			validateFirstName(student.getFirstName());
 			validateLastName(student.getLastName());
 			validateEmail(student.getEmailId());
@@ -23,10 +23,10 @@ public class StudentValidator {
 			validateDateOfBirth(student.getDob());
 			validateMobileNumber(student.getMobileNumber());
 			
-			
-		} catch (InvalidStudentException e) {
-			throw new InvalidStudentException(StudentsErrors.INVALID_STUDENT);
-		}
+//			
+//		} catch (InvalidStudentException e) {
+//			throw new InvalidStudentException(StudentsErrors.INVALID_STUDENT);
+//		}
 
 		return true;
 		

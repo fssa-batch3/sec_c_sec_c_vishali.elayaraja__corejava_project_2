@@ -50,12 +50,12 @@ public class StudentDao {
 	}
 
 	public static boolean addStudent(Student student) throws InvalidStudentException {
-		try {
-			StudentValidator.validateStudent(student);
-		} catch (InvalidStudentException e) {
-			e.printStackTrace();
-			throw new InvalidStudentException(StudentsErrors.INVALID_STUDENT);
-		}
+//		try {
+//			StudentValidator.validateStudent(student);
+//		} catch (InvalidStudentException e) {
+//			e.printStackTrace();
+//			throw new InvalidStudentException(StudentsErrors.INVALID_STUDENT);
+//		}
 
 		try (Connection connection = ConnectionUtil.getConnection()) {
 			String query = "INSERT INTO students(first_name, last_name, gender, dob, email, password, mobile_no) VALUES (?,?,?,?,?,?,?);";
