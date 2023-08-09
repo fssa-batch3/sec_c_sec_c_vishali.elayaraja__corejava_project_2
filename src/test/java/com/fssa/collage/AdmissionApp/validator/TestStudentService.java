@@ -22,7 +22,7 @@ public class TestStudentService {
 			student.setLastName("vinoth");
 			student.setGender("male");
 			student.setDob(LocalDate.of(2022, 11,14));
-			student.setEmailId("viyan@gmail.com");
+			student.setEmailId("viyan1234@gmail.com");
 			student.setPassword("Icodeu100%");
 			student.setMobileNumber("9443456678");
 			student.setIsActive(true);
@@ -36,7 +36,7 @@ public class TestStudentService {
 
 			try {
 				StudentService.addStudent(null);
-				Assertions.fail("Expected invalidStudentException");
+				Assertions.fail("Cannot add a new Student");
 			} catch (InvalidStudentException e) {
 				Assertions.assertEquals(StudentsErrors.INVALID_STUDENT, e.getMessage());
 			}
@@ -63,7 +63,7 @@ public class TestStudentService {
 		void TestInvalidUpdateStudent() throws DaoException, SQLException, InvalidStudentException  {
 			try {
 				Student student = new Student();
-				Assertions.assertTrue(StudentService.updateStudent(student,-1));
+				StudentService.updateStudent(null,-1);
 				Assertions.fail("Invalid Student");
 			} catch (InvalidStudentException e) {
 			
