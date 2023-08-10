@@ -6,7 +6,7 @@ The College Admission App makes it easy for students to apply to colleges and le
 
 ## DB TABLES
 
-## Students Table
+## students Table
 
 | Column           | Type         | Null | Key | Default           | Extra                       |
 |------------------|--------------|------|-----|-------------------|-----------------------------|
@@ -22,7 +22,7 @@ The College Admission App makes it easy for students to apply to colleges and le
 | status           | tinyint      |      |     | 1                 |                             |
 
 
-## Departments Table
+## departments Table
 
 | Column  | Type         | Null | Key  | Default           | Extra          |
 |---------|--------------|------|------|-------------------|----------------|
@@ -30,7 +30,7 @@ The College Admission App makes it easy for students to apply to colleges and le
 | name    | varchar(100) | NO   | UNI  |                   |                |
 
 
-## Student_Class Table
+## student_class Table
 
 | Column         | Type         | Null | Key | Default      | Extra          |
 |----------------|--------------|------|-----|--------------|----------------|
