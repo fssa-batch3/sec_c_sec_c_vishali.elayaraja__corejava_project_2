@@ -26,7 +26,7 @@ The College Admission App makes it easy for students to apply to colleges and le
 
 | Column  | Type         | Null | Key  | Default           | Extra          |
 |---------|--------------|------|------|-------------------|----------------|
-| id      | int          |      | PRI  | auto_increment    |                |
+| id      | int          |      | PRI  |    |                |
 | name    | varchar(100) | NO   | UNI  |                   |                |
 
 
