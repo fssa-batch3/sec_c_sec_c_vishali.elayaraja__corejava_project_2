@@ -3,12 +3,16 @@ package com.fssa.collage.admission.app.validator;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
 
+import com.fssa.collage.admission.app.errors.DepartmentErrors;
 import com.fssa.collage.admission.app.exception.InvalidDepartmentException;
 import com.fssa.collage.admission.app.model.Department;
-import com.fssa.collage.admission.app.model.DepartmentErrors;
 
 
 public class DepartmentValidator {
+	
+	private DepartmentValidator() {
+		
+	}
 	
 
 	
@@ -29,6 +33,7 @@ public class DepartmentValidator {
 
 		return true;
 	}
+	
 	
 	public static boolean validateDepartmentName(String name) throws InvalidDepartmentException,SQLException {
 		String regex = "^[A-Za-z]{2,30}$";

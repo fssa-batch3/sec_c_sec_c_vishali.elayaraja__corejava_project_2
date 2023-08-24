@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.Pattern;
 
+import com.fssa.collage.admission.app.errors.StudentsErrors;
 import com.fssa.collage.admission.app.exception.InvalidStudentException;
 import com.fssa.collage.admission.app.exception.ValidationException;
 import com.fssa.collage.admission.app.model.Student;
-import com.fssa.collage.admission.app.model.StudentsErrors;
 
 public class StudentValidator {
 	
@@ -58,6 +58,13 @@ public class StudentValidator {
 		}
 		return true;
 	}
+	
+	public static boolean validateRollNo(int rollNo) throws InvalidStudentException {
+		if (rollNo <= 0)  {
+			throw new InvalidStudentException(StudentsErrors.INVALID_ROLL_NO);
+		}
+		return true;
+	}
 
 	public static boolean validateEmail(String emailId) throws InvalidStudentException {
 		String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
@@ -105,15 +112,16 @@ public class StudentValidator {
         return true;
 	}
 
-	public static boolean validateMobileNumber(String mobileNumber) throws InvalidStudentException {
-		String regex = "^[6789]\\d{9}$";
-		boolean matches = Pattern.compile(regex).matcher(mobileNumber).matches();
-		if (matches) {
-			return true;
-		} else {
-			throw new InvalidStudentException(StudentsErrors.INVALID_MOBILE_NUMBER);
-		}
-	}
+    public static boolean validateMobileNumber(long number) throws InvalidStudentException {
+        String regex = "^[6789]\\d{9}$";
+        String numberStr = String.valueOf(number);
+        boolean matches = Pattern.compile(regex).matcher(numberStr).matches();
+        if (matches) {
+            return true;
+        } else {
+            throw new InvalidStudentException(StudentsErrors.INVALID_MOBILE_NUMBER);
+        }
+    }
 	
 	public static boolean validateDatePattern(LocalDate createdDate)throws ValidationException{
 		LocalDate currentDate = LocalDate.now();

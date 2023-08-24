@@ -2,30 +2,30 @@ package com.fssa.collage.admission.app.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Student {
 
 	private int id;
 	private String firstName;
 	private String lastName;
-	private String mobileNumber;
+	private long mobileNumber;
 	private String emailId;
 	private String password;
 	private String gender;
 	private LocalDate dob;
 	private LocalDateTime created_date;
 	private Boolean isActive;
+	private int rollNo;
 
-	
 	public Student() {
 //		default constructor
 	}
 
-	public Student(int id, String firstName, String lastName, String mobileNumber, String emailId, String password,
-			String gender, LocalDate dob, LocalDateTime created_date, Boolean isActive) {
+	public Student(int id, int rollNo, String firstName, String lastName, long mobileNumber, String emailId,
+			String password, String gender, LocalDate dob, LocalDateTime created_date, Boolean isActive) {
 		super();
 		this.id = id;
+		this.rollNo = rollNo;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mobileNumber = mobileNumber;
@@ -35,6 +35,7 @@ public class Student {
 		this.dob = dob;
 		this.created_date = created_date;
 		this.isActive = isActive;
+
 	}
 
 	public int getId() {
@@ -43,6 +44,15 @@ public class Student {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+//	roll no should contain 7 digits (1111111 - 9999999)
+	public int getRollNo() {
+		return rollNo;
+	}
+
+	public void setRollNo(int rollNo) {
+		this.rollNo = rollNo;
 	}
 
 	public String getFirstName() {
@@ -61,11 +71,11 @@ public class Student {
 		this.lastName = lastName;
 	}
 
-	public String getMobileNumber() {
+	public long getMobileNumber() {
 		return mobileNumber;
 	}
 
-	public void setMobileNumber(String string) {
+	public void setMobileNumber(long string) {
 		this.mobileNumber = string;
 	}
 
@@ -99,7 +109,7 @@ public class Student {
 
 	public void setDob(LocalDate dob) {
 		this.dob = dob;
-		
+
 	}
 
 	public LocalDateTime getCreated_date() {
@@ -111,7 +121,7 @@ public class Student {
 	}
 
 	public Boolean getIsActive() {
-		
+
 		return isActive;
 	}
 
@@ -128,7 +138,6 @@ public class Student {
 		return "User [  firstName=" + firstName + ", lastName=" + lastName + ", email=" + emailId + ", password="
 				+ password + ", gender=" + gender + ", mobileNumber=" + mobileNumber + ", dob=" + dob
 				+ ", created_date=" + created_date + ", isActive=" + isActive + "]";
-		
 
 	}
 }
