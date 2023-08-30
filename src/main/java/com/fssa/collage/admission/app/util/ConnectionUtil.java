@@ -21,7 +21,7 @@ public class ConnectionUtil {
 	            passWord = System.getenv("DATABASE_PASSWORD");
 
 	        try {
-
+		    Class.forName("com.mysql.cj.jdbc.Driver");	
 	            con = DriverManager.getConnection(url, userName, passWord);
 	        } catch (Exception e) {
 	            e.printStackTrace();
