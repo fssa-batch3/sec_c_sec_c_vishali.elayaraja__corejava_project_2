@@ -16,12 +16,16 @@ public class ConnectionUtil {
 	        String url, userName, passWord;
 
 
-	            url = System.getenv("DATABASE_HOST");
-	            userName = System.getenv("DATABASE_USERNAME");
-	            passWord = System.getenv("DATABASE_PASSWORD");
+	     //       url = System.getenv("DATABASE_HOST");
+	       //     userName = System.getenv("DATABASE_USERNAME");
+	       //     passWord = System.getenv("DATABASE_PASSWORD");
+
+		 String url = "jdbc:mysql://localhost:3306/Collage_management_app";
+		String userName = "root";
+		String passWord = "123456";
 
 	        try {
-		//    Class.forName("com.mysql.cj.jdbc.Driver");	
+		   Class.forName("com.mysql.cj.jdbc.Driver");	
 	            con = DriverManager.getConnection(url, userName, passWord);
 	        } catch (Exception e) {
 	            e.printStackTrace();
