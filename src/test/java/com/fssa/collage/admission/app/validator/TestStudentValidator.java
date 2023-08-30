@@ -27,6 +27,7 @@ class TestStudentValidator {
 	void testValidateStudent() throws InvalidStudentException {
 		Student student = new Student();
 		student.setDob(LocalDate.of(2004, 10, 30));
+		student.setApplicationNo("ABE234");
 		student.setEmailId("yazhini@gmail.com");
 		student.setFirstName("yazhini");
 		student.setGender("Female");
@@ -95,19 +96,19 @@ class TestStudentValidator {
 	}
 
 	@Test
-	void testValidRollNo() throws InvalidStudentException {
-		Assertions.assertTrue(StudentValidator.validateRollNo(2372547));
+	void testValidApplicationNo() throws InvalidStudentException {
+		Assertions.assertTrue(StudentValidator.validateApplicationNo("MECH001"));
 	}
 
 	@Test
-	void testInvalidRollNo() {
+	void testInvalidApplicationNo() {
 		try {
-			Assertions.assertTrue(StudentValidator.validateRollNo(-1));
+			Assertions.assertTrue(StudentValidator.validateApplicationNo("8a"));
 		} catch (InvalidStudentException e) {
 			Assertions.assertEquals(StudentsErrors.INVALID_ID, e.getMessage());
 		}
 	}
-	
+
 	@Test
 
 	void testValidEmail() throws InvalidStudentException {

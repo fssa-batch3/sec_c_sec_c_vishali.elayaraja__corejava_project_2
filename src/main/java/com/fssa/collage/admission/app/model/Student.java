@@ -15,17 +15,17 @@ public class Student {
 	private LocalDate dob;
 	private LocalDateTime created_date;
 	private Boolean isActive;
-	private int rollNo;
+	private String applicationNo;
 
 	public Student() {
 //		default constructor
 	}
 
-	public Student(int id, int rollNo, String firstName, String lastName, long mobileNumber, String emailId,
+	public Student(int id, String applicationNo, String firstName, String lastName, long mobileNumber, String emailId,
 			String password, String gender, LocalDate dob, LocalDateTime created_date, Boolean isActive) {
 		super();
 		this.id = id;
-		this.rollNo = rollNo;
+		this.applicationNo = applicationNo;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mobileNumber = mobileNumber;
@@ -47,12 +47,12 @@ public class Student {
 	}
 
 //	roll no should contain 7 digits (1111111 - 9999999)
-	public int getRollNo() {
-		return rollNo;
+	public String getApplicationNo() {
+		return applicationNo;
 	}
 
-	public void setRollNo(int rollNo) {
-		this.rollNo = rollNo;
+	public void setApplicationNo(String rollNo) {
+		this.applicationNo = rollNo;
 	}
 
 	public String getFirstName() {

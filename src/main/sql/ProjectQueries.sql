@@ -25,6 +25,8 @@ CREATE TABLE departments (
     UNIQUE KEY (dept_name)
 );
 
+//insert
+
 CREATE INDEX departments_ind_fk ON departments (dept_name);
 
 CREATE TABLE student_class (

@@ -14,16 +14,16 @@ import com.fssa.collage.admission.app.model.Student;
 class TestStudentService {
 
 	@Test
-	void TestAddStudent() throws SQLException, InvalidStudentException {
+	void testAddStudent() throws SQLException, InvalidStudentException {
 		Student student = new Student();
-		student.setRollNo(4673657);
+		student.setApplicationNo("MECH37");
 		student.setFirstName("vishali");
 		student.setLastName("elayaraja");
 		student.setGender("female");
 		student.setDob(LocalDate.of(2002, 04, 19));
-		student.setEmailId("vish2@gmail.com");
+		student.setEmailId("vish24@gmail.com");
 		student.setPassword("Icodeu100%");
-		student.setMobileNumber(9445456478L);
+		student.setMobileNumber(9445856478L);
 		student.setIsActive(true);
 
 		Assertions.assertTrue(StudentService.addStudent(student));
@@ -42,7 +42,7 @@ class TestStudentService {
 	}
 
 	@Test
-	void TestUpdateStudent() throws InvalidStudentException, DAOException {
+	void testUpdateStudent() throws InvalidStudentException, DAOException {
 		Student student = new Student();
 		student.setFirstName("vinitha");
 		student.setLastName("Mohan");
@@ -52,16 +52,16 @@ class TestStudentService {
 		student.setPassword("Icodeu100%");
 		student.setMobileNumber(9779445668L);
 		student.setIsActive(true);
-		student.setId(7);
+//		student.setId(7);
 
-		Assertions.assertTrue(StudentService.updateStudent(student, 33));
+		Assertions.assertTrue(StudentService.updateStudent(student, 37));
 
 	}
 
 	@Test
-	void TestInvalidUpdateStudent() throws DAOException, SQLException, InvalidStudentException {
+	void testInvalidUpdateStudent() throws DAOException, SQLException, InvalidStudentException {
 		try {
-			StudentService.updateStudent(null, -1);
+			StudentService.updateStudent(null, 12);
 			Assertions.fail("Invalid Student");
 		} catch (InvalidStudentException e) {
 
@@ -70,19 +70,19 @@ class TestStudentService {
 	}
 
 	@Test
-	void testremoveStudent() throws DAOException, InvalidStudentException {
+	void testRemoveStudent() throws DAOException, InvalidStudentException {
 
-		Assertions.assertTrue(StudentService.removeStudent(33));
+		Assertions.assertTrue(StudentService.removeStudent(1));
 
 	}
 
 	@Test
-	void testInvalidremoveStudent() throws DAOException {
+	void testInvalidRemoveStudent() throws DAOException {
 		try {
-			Assertions.assertTrue(StudentService.removeStudent(0));
+			Assertions.assertTrue(StudentService.removeStudent(-1));
 			Assertions.fail("Invalid Student");
 		} catch (InvalidStudentException e) {
-			Assertions.assertEquals(StudentsErrors.INVALID_ROLL_NO, e.getMessage());
+			Assertions.assertEquals(StudentsErrors.INVALID_APPLICATION_NO, e.getMessage());
 		}
 	}
 
@@ -102,7 +102,7 @@ class TestStudentService {
 
 			StudentService.getAllStudent();
 		} catch (DAOException e) {
-			Assertions.assertEquals("No Objects Found", e.getMessage());
+			Assertions.assertEquals("unable to retrive student list", e.getMessage());
 		}
 		Assertions.assertTrue(true);
 	}
@@ -118,7 +118,7 @@ class TestStudentService {
 	void testInvalidfindStudentByName() throws DAOException, SQLException, InvalidStudentException {
 
 		try {
-			Assertions.assertNotNull(StudentService.findStudentByName("b"," "));
+			Assertions.assertNotNull(StudentService.findStudentByName("b", " "));
 			Assertions.fail("Invalid Student");
 		} catch (InvalidStudentException e) {
 			Assertions.assertEquals(StudentsErrors.INVALID_NAME, e.getMessage());

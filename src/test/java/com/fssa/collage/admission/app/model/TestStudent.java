@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 class TestStudent {
 
-	Student student = new Student(1,567865, "John", "Doe", 1234567890, "john@example.com", "password", "Male",
+	Student student = new Student(1,"aab678", "John", "Doe", 1234567890, "john@example.com", "password", "Male",
 			LocalDate.of(1990, 1, 1), LocalDateTime.now(), true);
 
 	@Test
@@ -21,7 +21,7 @@ class TestStudent {
 	
 	@Test
 	void testRollNo() {
-		assertEquals(567865, student.getRollNo());
+		assertEquals(567865, student.getApplicationNo());
 	}
 
 	@Test

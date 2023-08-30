@@ -22,9 +22,19 @@ public class StudentDAO {
 
 	}
 
+	public static void main(String[] args) {
+		try {
+			List<Student> arr = getAllStudent();
+			for (Student e : arr) {
+				System.out.println(e);
+			}
+		} catch (DAOException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static List<Student> getAllStudent() throws DAOException, SQLException {
 
-		Student student = new Student();
 		List<Student> studentList = new ArrayList<>();
 		try (Connection connection = ConnectionUtil.getConnection()) {
 			String query = "SELECT * FROM students";
@@ -33,8 +43,8 @@ public class StudentDAO {
 				try (ResultSet resultSet = statement.executeQuery(query)) {
 
 					while (resultSet.next()) {
-
-						student.setId(resultSet.getInt("roll_no"));
+						Student student = new Student();
+						student.setApplicationNo(resultSet.getString("application_no"));
 						student.setFirstName(resultSet.getString("first_name"));
 						student.setLastName(resultSet.getString("last_name"));
 						student.setGender(resultSet.getString("gender"));
@@ -50,7 +60,7 @@ public class StudentDAO {
 			} catch (SQLException e) {
 
 				e.printStackTrace();
-				throw new DAOException("No Objects Found");
+				throw new DAOException("unable to retrive student list");
 			}
 
 		}
@@ -62,7 +72,7 @@ public class StudentDAO {
 		try (Connection connection = ConnectionUtil.getConnection()) {
 			String query = "INSERT INTO students(roll_no,first_name, last_name, gender, dob, email, password, mobile_no) VALUES (?,?,?,?,?,?,?,?)";
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
-				pst.setInt(1, student.getRollNo());
+				pst.setString(1, student.getApplicationNo());
 				pst.setString(2, student.getFirstName());
 				pst.setString(3, student.getLastName());
 				pst.setString(4, student.getGender());
@@ -81,16 +91,16 @@ public class StudentDAO {
 
 	}
 
-	public static boolean updateStudent(Student student, int rollNo) throws DAOException, InvalidStudentException {
+	public static boolean updateStudent(Student student, int id) throws DAOException, InvalidStudentException {
 		StudentValidator.validateStudent(student);
 
 		try (Connection connection = ConnectionUtil.getConnection()) {
-			String query = "UPDATE students SET email = ? WHERE id = (SELECT * from students WHERE roll_no = ? )";
+			String query = "UPDATE students SET emailId = ? WHERE id = ?";
 
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
 
 				pst.setString(1, student.getEmailId());
-				pst.setInt(2, rollNo);
+				pst.setInt(2, id);
 
 				int rows = pst.executeUpdate();
 
@@ -105,15 +115,15 @@ public class StudentDAO {
 
 	}
 
-	public static boolean removeStudent(int rollNo) throws DAOException, InvalidStudentException {
+	public static boolean removeStudent(int id) throws DAOException, InvalidStudentException {
 
-		StudentValidator.validateId(rollNo);
+		StudentValidator.validateId(id);
 
 		try (Connection connection = ConnectionUtil.getConnection()) {
-			String query = "DELETE students FROM students JOIN (SELECT id FROM students WHERE roll_no = ?) AS subquery ON students.id = subquery.id;";
+			String query = "DELETE FROM students WHERE id = ?  ";
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
 
-				pst.setInt(1, rollNo);
+				pst.setInt(1, id);
 
 				int rows = pst.executeUpdate();
 
@@ -140,14 +150,14 @@ public class StudentDAO {
 				pst.setString(1, firstName);
 				pst.setString(2, lastName);
 				try (ResultSet resultSet = pst.executeQuery()) {
-					if (resultSet.next()) {
+					while (resultSet.next()) {
 						Student student = new Student();
-						student.setId(resultSet.getInt("roll_no"));
+						student.setApplicationNo(resultSet.getString("roll_no"));
 						student.setFirstName(resultSet.getString("first_name"));
 						student.setLastName(resultSet.getString("last_name"));
 						student.setGender(resultSet.getString("gender"));
-						student.setDob(resultSet.getDate(5).toLocalDate());
-						student.setEmailId(resultSet.getString("email_id"));
+						student.setDob(resultSet.getDate("dob").toLocalDate());
+						student.setEmailId(resultSet.getString("email"));
 						student.setPassword(resultSet.getString("password"));
 						student.setIsActive(resultSet.getBoolean("status"));
 						studentList.add(student);

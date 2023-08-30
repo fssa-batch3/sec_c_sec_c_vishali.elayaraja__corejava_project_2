@@ -10,40 +10,45 @@ import com.fssa.collage.admission.app.exception.ValidationException;
 import com.fssa.collage.admission.app.model.Student;
 
 public class StudentValidator {
-	
+
 	private StudentValidator() {
-		
+
 	}
 
 	public static boolean validateStudent(Student student) throws InvalidStudentException {
 		if (student == null) {
 			throw new InvalidStudentException(StudentsErrors.INVALID_STUDENT);
 		}
-			validateFirstName(student.getFirstName());
-			validateLastName(student.getLastName());
-			validateEmail(student.getEmailId());
-			validatePassword(student.getPassword());
-			validateGender(student.getGender());
-			validateDateOfBirth(student.getDob());
-			validateMobileNumber(student.getMobileNumber());
+		validateFirstName(student.getFirstName());
+		validateLastName(student.getLastName());
+		validateEmail(student.getEmailId());
+		validatePassword(student.getPassword());
+		validateGender(student.getGender());
+		validateDateOfBirth(student.getDob());
+		validateMobileNumber(student.getMobileNumber());
 
 		return true;
-		
-	}
 
+	}
+/**
+ * first name must contain only aphabets.length can be between 2 - 30 characters
+ * @param firstName
+ * @return
+ * @throws InvalidStudentException
+ */
 	public static boolean validateFirstName(String firstName) throws InvalidStudentException {
-		String regex =  "^[A-Za-z]{2,30}$";
+		String regex = "^[A-Za-z]{2,30}$";
 		boolean matches = Pattern.compile(regex).matcher(firstName).matches();
 		if (firstName == null || !matches) {
 			throw new InvalidStudentException(StudentsErrors.INVALID_NAME);
 
 		}
 		return true;
-		
+
 	}
-	
+
 	public static boolean validateLastName(String LastName) throws InvalidStudentException {
-		String regex =  "^[A-Za-z]{2,30}$";
+		String regex = "^[A-Za-z]{2,30}$";
 		boolean matches = Pattern.compile(regex).matcher(LastName).matches();
 		if (LastName == null || !matches) {
 			throw new InvalidStudentException(StudentsErrors.INVALID_NAME);
@@ -58,20 +63,23 @@ public class StudentValidator {
 		}
 		return true;
 	}
-	
-	public static boolean validateRollNo(int rollNo) throws InvalidStudentException {
-		if (rollNo <= 0)  {
-			throw new InvalidStudentException(StudentsErrors.INVALID_ROLL_NO);
+
+	public static boolean validateApplicationNo(String applicationNo) throws InvalidStudentException {
+//		 String regex = "^[A-Za-z]{3}\\d{3}$";
+//		 boolean matches = Pattern.compile(regex).matcher(rollNo).matches();
+		if (applicationNo == null || applicationNo.trim().length() <= 0 || applicationNo.length() < 6) {
+			throw new InvalidStudentException(StudentsErrors.INVALID_APPLICATION_NO);
 		}
 		return true;
 	}
+	
 
 	public static boolean validateEmail(String emailId) throws InvalidStudentException {
 		String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
 		boolean matches = Pattern.compile(regex).matcher(emailId).matches();
 		if (matches) {
 			return true;
-			
+
 		} else {
 			throw new InvalidStudentException(StudentsErrors.INVALID_EMAIL);
 		}
@@ -96,44 +104,41 @@ public class StudentValidator {
 		}
 	}
 
-
 	public static boolean validateDateOfBirth(LocalDate dob) throws InvalidStudentException {
-		
-		
+
 		LocalDate dateOfBirth = dob;
-        LocalDate currentDate = LocalDate.now();
-        Period age = Period.between(dateOfBirth, 
-        		currentDate);
-        int years = age.getYears();
-        if (years < 17) {
-        	throw new InvalidStudentException(StudentsErrors.INVALID_DOB);
-
-        }
-        return true;
-	}
-
-    public static boolean validateMobileNumber(long number) throws InvalidStudentException {
-        String regex = "^[6789]\\d{9}$";
-        String numberStr = String.valueOf(number);
-        boolean matches = Pattern.compile(regex).matcher(numberStr).matches();
-        if (matches) {
-            return true;
-        } else {
-            throw new InvalidStudentException(StudentsErrors.INVALID_MOBILE_NUMBER);
-        }
-    }
-	
-	public static boolean validateDatePattern(LocalDate createdDate)throws ValidationException{
 		LocalDate currentDate = LocalDate.now();
-		if(createdDate==null) {
-			throw new ValidationException(StudentsErrors.INVALID_DATE);
-		}
-		if(createdDate.isBefore(currentDate)) {
-			throw new ValidationException(StudentsErrors.INVALID_DATE);
-				
+		Period age = Period.between(dateOfBirth, currentDate);
+		int years = age.getYears();
+		if (years < 17) {
+			throw new InvalidStudentException(StudentsErrors.INVALID_DOB);
+
 		}
 		return true;
-		
 	}
-	
+
+	public static boolean validateMobileNumber(long number) throws InvalidStudentException {
+		String regex = "^[6789]\\d{9}$";
+		String numberStr = String.valueOf(number);
+		boolean matches = Pattern.compile(regex).matcher(numberStr).matches();
+		if (matches) {
+			return true;
+		} else {
+			throw new InvalidStudentException(StudentsErrors.INVALID_MOBILE_NUMBER);
+		}
+	}
+
+	public static boolean validateDatePattern(LocalDate createdDate) throws ValidationException {
+		LocalDate currentDate = LocalDate.now();
+		if (createdDate == null) {
+			throw new ValidationException(StudentsErrors.INVALID_DATE);
+		}
+		if (createdDate.isBefore(currentDate)) {
+			throw new ValidationException(StudentsErrors.INVALID_DATE);
+
+		}
+		return true;
+
+	}
+
 }

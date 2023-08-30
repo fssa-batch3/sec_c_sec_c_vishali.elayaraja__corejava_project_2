@@ -27,20 +27,21 @@ public class StudentService {
 	public static List<Student> getAllStudent() throws DAOException, SQLException {
 		List<Student> studentList = new ArrayList<>();
 		studentList = StudentDAO.getAllStudent();
+		System.out.println(studentList);
 		return studentList;
 	}
 
-	public static boolean updateStudent(Student student, int rollNo) throws InvalidStudentException, DAOException {
-		if (StudentValidator.validateStudent(student) && StudentValidator.validateRollNo(rollNo)) {
-			StudentDAO.updateStudent(student, rollNo);
+	public static boolean updateStudent(Student student, int id) throws InvalidStudentException, DAOException {
+		if (StudentValidator.validateStudent(student) && StudentValidator.validateId(id)) {
+			StudentDAO.updateStudent(student, id);
 		}
 		return true;
 
 	}
 
-	public static boolean removeStudent(int rollNo) throws InvalidStudentException, DAOException {
-		if (StudentValidator.validateRollNo(rollNo)) {
-			StudentDAO.removeStudent(rollNo);
+	public static boolean removeStudent(int id) throws InvalidStudentException, DAOException {
+		if (StudentValidator.validateId(id)) {
+			StudentDAO.removeStudent(id);
 		}
 		return true;
 
