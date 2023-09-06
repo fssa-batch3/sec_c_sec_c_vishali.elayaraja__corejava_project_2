@@ -23,8 +23,8 @@ public class DepartmentService {
 
 		}
 
-		public static boolean readDepartment() throws DAOException, SQLException {
-			DepartmentDAO.readDepartment();
+		public static boolean listAllDepartment() throws DAOException, SQLException {
+			DepartmentDAO.getALlDepartment();
 			return true;
 		}
 
@@ -41,7 +41,6 @@ public class DepartmentService {
 				DepartmentDAO.removeDepartment(id);
 			}
 			return true;
-
 		}
 
 		public static boolean findDepartmentByName(String name)

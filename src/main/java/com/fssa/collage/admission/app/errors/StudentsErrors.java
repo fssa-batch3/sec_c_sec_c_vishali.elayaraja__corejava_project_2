@@ -3,7 +3,7 @@ package com.fssa.collage.admission.app.errors;
 public interface StudentsErrors {
 
 	public static final String INVALID_ID = "Student id cannot be 0 or lesser than 0";
-	public static final String INVALID_APPLICATION_NO = "roll no should contain 7 digits (1111111 - 9999999)";
+	public static final String OBJECT_NOT_FOUND = "Student not found";
 	public static final String INVALID_DATE = "Date cannot be in past or null";
 	public static final String INVALID_STUDENT = "Student cannot be null";
 	public static final String INVALID_GENDER = "Invalid Gender - valid values are male/female";

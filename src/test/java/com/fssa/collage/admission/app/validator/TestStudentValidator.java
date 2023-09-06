@@ -96,20 +96,6 @@ class TestStudentValidator {
 	}
 
 	@Test
-	void testValidApplicationNo() throws InvalidStudentException {
-		Assertions.assertTrue(StudentValidator.validateApplicationNo("MECH001"));
-	}
-
-	@Test
-	void testInvalidApplicationNo() {
-		try {
-			Assertions.assertTrue(StudentValidator.validateApplicationNo("8a"));
-		} catch (InvalidStudentException e) {
-			Assertions.assertEquals(StudentsErrors.INVALID_ID, e.getMessage());
-		}
-	}
-
-	@Test
 
 	void testValidEmail() throws InvalidStudentException {
 		String email = "vishali@gmail.com";

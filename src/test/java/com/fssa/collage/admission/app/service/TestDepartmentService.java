@@ -76,7 +76,7 @@ class TestDepartmentService {
 
 	void testValidReadDepartment() throws DAOException, SQLException, InvalidDepartmentException {
 
-		Assertions.assertTrue(DepartmentService.readDepartment());
+		Assertions.assertTrue(DepartmentService.listAllDepartment());
 
 	}
 
@@ -86,7 +86,7 @@ class TestDepartmentService {
 
 		try {
 
-			DepartmentService.readDepartment();
+			DepartmentService.listAllDepartment();
 		} catch (DAOException e) {
 			Assertions.assertEquals("No Objects Found", e.getMessage());
 		}

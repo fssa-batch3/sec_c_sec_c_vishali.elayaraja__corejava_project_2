@@ -5,24 +5,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fssa.collage.admission.app.exception.DAOException;
 import com.fssa.collage.admission.app.exception.InvalidDepartmentException;
 import com.fssa.collage.admission.app.model.Department;
+import com.fssa.collage.admission.app.model.Student;
 import com.fssa.collage.admission.app.util.ConnectionUtil;
 import com.fssa.collage.admission.app.util.Logger;
 import com.fssa.collage.admission.app.validator.DepartmentValidator;
 
 public class DepartmentDAO {
 
-	public static void main(String[] args) throws InvalidDepartmentException, SQLException {
 
-		Department department = new Department();
-		addDepartment(department);
-
-	}
-
-	public static boolean readDepartment() throws DAOException, SQLException {
+	public static List<Department> getALlDepartment() throws DAOException, SQLException {
+		List<Department> departmentList = new ArrayList<>();
 
 		try (Connection connection = ConnectionUtil.getConnection()) {
 			String query = "SELECT * FROM Departments;";
@@ -31,24 +29,24 @@ public class DepartmentDAO {
 				try (ResultSet resultSet = statement.executeQuery(query)) {
 
 					while (resultSet.next()) {
-
-						Logger.info("id: " + resultSet.getInt(1));
-						Logger.info("DepartmentName: " + resultSet.getString(2));
-						Logger.info("\n");
-
+						Department department = new Department();
+						
+						department.setId(resultSet.getInt("id"));
+						department.setName( resultSet.getString("dept_name"));
+						departmentList.add(department);
 					}
-					return true;
 				}
 			} catch (SQLException e) {
 
 				e.printStackTrace();
-				throw new DAOException("No Objects Found");
+				throw new DAOException("No Department found");
 			}
 
 		}
+		return departmentList;
 
 	}
-
+	
 	public static void addDepartment(Department department) throws InvalidDepartmentException, SQLException {
 		try {
 			DepartmentValidator.validateDepartment(department);

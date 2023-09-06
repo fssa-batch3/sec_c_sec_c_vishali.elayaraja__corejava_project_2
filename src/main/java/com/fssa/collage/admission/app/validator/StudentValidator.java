@@ -30,16 +30,19 @@ public class StudentValidator {
 		return true;
 
 	}
-/**
- * first name must contain only aphabets.length can be between 2 - 30 characters
- * @param firstName
- * @return
- * @throws InvalidStudentException
- */
+
+	/**
+	 * first name must contain only aphabets.length can be between 2 - 30 characters
+	 * 
+	 * @param firstName
+	 * @return
+	 * @throws InvalidStudentException
+	 */
 	public static boolean validateFirstName(String firstName) throws InvalidStudentException {
+		String firstNameLowercase = firstName.toLowerCase();
 		String regex = "^[A-Za-z]{2,30}$";
 		boolean matches = Pattern.compile(regex).matcher(firstName).matches();
-		if (firstName == null || !matches) {
+		if (firstNameLowercase == null || !matches) {
 			throw new InvalidStudentException(StudentsErrors.INVALID_NAME);
 
 		}
@@ -48,9 +51,10 @@ public class StudentValidator {
 	}
 
 	public static boolean validateLastName(String LastName) throws InvalidStudentException {
+		String LastNameLowercase = LastName.toLowerCase();
 		String regex = "^[A-Za-z]{2,30}$";
 		boolean matches = Pattern.compile(regex).matcher(LastName).matches();
-		if (LastName == null || !matches) {
+		if (LastNameLowercase == null || !matches) {
 			throw new InvalidStudentException(StudentsErrors.INVALID_NAME);
 
 		}
@@ -63,16 +67,6 @@ public class StudentValidator {
 		}
 		return true;
 	}
-
-	public static boolean validateApplicationNo(String applicationNo) throws InvalidStudentException {
-//		 String regex = "^[A-Za-z]{3}\\d{3}$";
-//		 boolean matches = Pattern.compile(regex).matcher(rollNo).matches();
-		if (applicationNo == null || applicationNo.trim().length() <= 0 || applicationNo.length() < 6) {
-			throw new InvalidStudentException(StudentsErrors.INVALID_APPLICATION_NO);
-		}
-		return true;
-	}
-	
 
 	public static boolean validateEmail(String emailId) throws InvalidStudentException {
 		String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
@@ -95,7 +89,8 @@ public class StudentValidator {
 	}
 
 	public static boolean validatePassword(String password) throws InvalidStudentException {
-		String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$";
+//		String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$";
+		String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$";
 		boolean matches = Pattern.compile(regex).matcher(password).matches();
 		if (matches) {
 			return true;

@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fssa.collage.admission.app.errors.StudentsErrors;
 import com.fssa.collage.admission.app.exception.DAOException;
 import com.fssa.collage.admission.app.exception.InvalidStudentException;
 import com.fssa.collage.admission.app.model.Student;
@@ -16,25 +17,26 @@ import com.fssa.collage.admission.app.model.StudentErrors;
 import com.fssa.collage.admission.app.util.ConnectionUtil;
 import com.fssa.collage.admission.app.validator.StudentValidator;
 
+/**
+ * This class provides data access methods for managing student data.
+ */
+
 public class StudentDAO {
 
 	private StudentDAO() {
-
+		// Private constructor to prevent instantiation.
 	}
 
-	public static void main(String[] args) {
-		try {
-			List<Student> arr = getAllStudent();
-			for (Student e : arr) {
-				System.out.println(e);
-			}
-		} catch (DAOException | SQLException e) {
-			e.printStackTrace();
-		}
-	}
+	/**
+	 * Retrieves a list of all students from the database.
+	 *
+	 * @return A list of Student objects representing all students.
+	 * @throws DAOException If there's an issue with the database.
+	 * @throws SQLException If there's an issue executing SQL queries.
+	 */
 
 	public static List<Student> getAllStudent() throws DAOException, SQLException {
-
+		// Implementation
 		List<Student> studentList = new ArrayList<>();
 		try (Connection connection = ConnectionUtil.getConnection()) {
 			String query = "SELECT * FROM students";
@@ -44,7 +46,7 @@ public class StudentDAO {
 
 					while (resultSet.next()) {
 						Student student = new Student();
-						student.setApplicationNo(resultSet.getString("application_no"));
+						student.setId(resultSet.getInt("id"));
 						student.setFirstName(resultSet.getString("first_name"));
 						student.setLastName(resultSet.getString("last_name"));
 						student.setGender(resultSet.getString("gender"));
@@ -67,19 +69,26 @@ public class StudentDAO {
 
 	}
 
+	/**
+	 * Adds a new student to the database.
+	 *
+	 * @param student The Student object representing the new student.
+	 * @return True if the student is added successfully, false otherwise.
+	 * @throws InvalidStudentException If the student data is invalid.
+	 */
+
 	public static boolean addStudent(Student student) throws InvalidStudentException {
 
 		try (Connection connection = ConnectionUtil.getConnection()) {
-			String query = "INSERT INTO students(roll_no,first_name, last_name, gender, dob, email, password, mobile_no) VALUES (?,?,?,?,?,?,?,?)";
+			String query = "INSERT INTO students(first_name, last_name, gender, dob, email, password, mobile_no) VALUES (?,?,?,?,?,?,?)";
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
-				pst.setString(1, student.getApplicationNo());
-				pst.setString(2, student.getFirstName());
-				pst.setString(3, student.getLastName());
-				pst.setString(4, student.getGender());
-				pst.setDate(5, Date.valueOf(student.getDob()));
-				pst.setString(6, student.getEmailId());
-				pst.setString(7, student.getPassword());
-				pst.setLong(8, student.getMobileNumber());
+				pst.setString(1, student.getFirstName());
+				pst.setString(2, student.getLastName());
+				pst.setString(3, student.getGender());
+				pst.setDate(4, Date.valueOf(student.getDob()));
+				pst.setString(5, student.getEmailId());
+				pst.setString(6, student.getPassword());
+				pst.setLong(7, student.getMobileNumber());
 
 				int rows = pst.executeUpdate();
 				return (rows > 0);
@@ -91,16 +100,47 @@ public class StudentDAO {
 
 	}
 
-	public static boolean updateStudent(Student student, int id) throws DAOException, InvalidStudentException {
-		StudentValidator.validateStudent(student);
+	/**
+	 * Updates the email of a student in the database.
+	 *
+	 * @param student The Student object representing the updated student.
+	 * @param id      The ID of the student to update.
+	 * @return True if the student is updated successfully, false otherwise.
+	 * @throws SQLException
+	 * @throws DAOException            If there's an issue with the database.
+	 * @throws InvalidStudentException If the student data is invalid.
+	 */
+	public static int getIdByStudentEmail(String email) throws SQLException {
+		int id = 0;
+		String query = "SELECT id FROM students WHERE email = ?";
+		try (Connection connection = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = connection.prepareStatement(query)) {
+				pst.setString(1, email);
+				try (ResultSet rs = pst.executeQuery()) {
+					if (rs.next()) {
+						id = rs.getInt("id");
+					}
+				}
+			}
+		}
+		return id;
+	}
+
+	public static boolean updateStudent(Student student) throws DAOException, InvalidStudentException {
 
 		try (Connection connection = ConnectionUtil.getConnection()) {
-			String query = "UPDATE students SET emailId = ? WHERE id = ?";
+			String query = "UPDATE students SET first_name = ?,last_name=?,gender=?,dob=?,"
+					+ "  password = ?, mobile_no = ? WHERE id = ?";
 
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
 
-				pst.setString(1, student.getEmailId());
-				pst.setInt(2, id);
+				pst.setString(1, student.getFirstName());
+				pst.setString(2, student.getLastName());
+				pst.setString(3, student.getGender());
+				pst.setDate(4, Date.valueOf(student.getDob()));
+				pst.setString(5, student.getPassword());
+				pst.setLong(6, student.getMobileNumber());
+				pst.setInt(7, getIdByStudentEmail(student.getEmailId()));
 
 				int rows = pst.executeUpdate();
 
@@ -115,12 +155,18 @@ public class StudentDAO {
 
 	}
 
+	/**
+	 * Removes a student from the database.
+	 *
+	 * @param id The ID of the student to remove.
+	 * @return True if the student is removed successfully, false otherwise.
+	 * @throws DAOException            If there's an issue with the database.
+	 * @throws InvalidStudentException If the student ID is invalid.
+	 */
 	public static boolean removeStudent(int id) throws DAOException, InvalidStudentException {
 
-		StudentValidator.validateId(id);
-
 		try (Connection connection = ConnectionUtil.getConnection()) {
-			String query = "DELETE FROM students WHERE id = ?  ";
+			String query = "DELETE FROM students WHERE id = ? ";
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
 
 				pst.setInt(1, id);
@@ -137,30 +183,38 @@ public class StudentDAO {
 
 	}
 
-	public static List<Student> findStudentByName(String firstName, String lastName)
-			throws DAOException, SQLException, InvalidStudentException {
-		StudentValidator.validateFirstName(firstName);
-		StudentValidator.validateLastName(lastName);
+	/**
+	 * Finds students by their first name and last name in the database.
+	 *
+	 * @param firstName The first name to search for.
+	 * @param lastName  The last name to search for.
+	 * @return A list of Student objects matching the search criteria.
+	 * @throws DAOException            If there's an issue with the database.
+	 * @throws SQLException            If there's an issue executing SQL queries.
+	 * @throws InvalidStudentException If the search criteria is invalid.
+	 */
 
-		List<Student> studentList = new ArrayList<>();
+	public static Student findStudentById(int id) throws DAOException, SQLException, InvalidStudentException {
+		StudentValidator.validateId(id);
+
+		Student studentList = null;
 		try (Connection connection = ConnectionUtil.getConnection()) {
 
-			String query = "SELECT * FROM students WHERE first_name = ? AND last_name =?";
+			String query = "SELECT * FROM students WHERE id =?";
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
-				pst.setString(1, firstName);
-				pst.setString(2, lastName);
+				pst.setInt(1, id);
 				try (ResultSet resultSet = pst.executeQuery()) {
-					while (resultSet.next()) {
+					if (resultSet.next()) {
 						Student student = new Student();
-						student.setApplicationNo(resultSet.getString("roll_no"));
+						student.setId(resultSet.getInt("Id"));
 						student.setFirstName(resultSet.getString("first_name"));
 						student.setLastName(resultSet.getString("last_name"));
 						student.setGender(resultSet.getString("gender"));
 						student.setDob(resultSet.getDate("dob").toLocalDate());
+						student.setMobileNumber(resultSet.getLong("mobile_no"));
 						student.setEmailId(resultSet.getString("email"));
 						student.setPassword(resultSet.getString("password"));
-						student.setIsActive(resultSet.getBoolean("status"));
-						studentList.add(student);
+
 					}
 
 				}
@@ -172,4 +226,103 @@ public class StudentDAO {
 		return studentList;
 	}
 
+	public static List<Student> findStudentByName(String firstName, String lastName)
+			throws DAOException, SQLException, InvalidStudentException {
+
+		List<Student> studentList = new ArrayList<>();
+		try (Connection connection = ConnectionUtil.getConnection()) {
+
+			String query = "SELECT * FROM students WHERE first_name = ? AND last_name =?";
+			try (PreparedStatement pst = connection.prepareStatement(query)) {
+				pst.setString(1, firstName);
+				pst.setString(2, lastName);
+				try (ResultSet resultSet = pst.executeQuery()) {
+					while (resultSet.next()) {
+						Student student = new Student();
+						student.setId(resultSet.getInt("Id"));
+						student.setFirstName(resultSet.getString("first_name"));
+						student.setLastName(resultSet.getString("last_name"));
+						student.setGender(resultSet.getString("gender"));
+						student.setDob(resultSet.getDate("dob").toLocalDate());
+						student.setEmailId(resultSet.getString("email"));
+						student.setMobileNumber(resultSet.getLong("mobile_no"));
+						student.setPassword(resultSet.getString("password"));
+						student.setIsActive(resultSet.getBoolean("status"));
+						studentList.add(student);
+					}
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DAOException(e.getMessage());
+			}
+		}
+		return studentList;
+	}
+
+	/**
+	 * Checks if a student with the given email exists in the database.
+	 *
+	 * @param email The email to check.
+	 * @return True if a student with the email exists, false otherwise.
+	 * @throws SQLException If there's an issue executing SQL queries.
+	 * @throws DAOException If there's an issue with the database.
+	 */
+
+	public static boolean checkStudentExists(String email) throws SQLException, DAOException {
+		String query = "SELECT email FROM students WHERE email = ?";
+		try (Connection connection = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = connection.prepareStatement(query)) {
+				pst.setString(1, email);
+				try (ResultSet rs = pst.executeQuery()) {
+					if (rs.next()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Finds a student by their email in the database.
+	 *
+	 * @param email The email to search for.
+	 * @return A Student object representing the found student, or null if not
+	 *         found.
+	 * @throws DAOException            If there's an issue with the database.
+	 * @throws SQLException            If there's an issue executing SQL queries.
+	 * @throws InvalidStudentException If the email is invalid.
+	 */
+
+	public static Student findStudentByEmail(String email) throws DAOException, SQLException, InvalidStudentException {
+		StudentValidator.validateEmail(email);
+
+		Student studentList = new Student();
+		try (Connection connection = ConnectionUtil.getConnection()) {
+
+			String query = "SELECT * FROM students WHERE email =?";
+			try (PreparedStatement pst = connection.prepareStatement(query)) {
+				pst.setString(1, email);
+				try (ResultSet resultSet = pst.executeQuery()) {
+					if (resultSet.next()) {
+						studentList.setId(resultSet.getInt("Id"));
+						studentList.setFirstName(resultSet.getString("first_name"));
+						studentList.setLastName(resultSet.getString("last_name"));
+						studentList.setGender(resultSet.getString("gender"));
+						studentList.setDob(resultSet.getDate("dob").toLocalDate());
+						studentList.setMobileNumber(resultSet.getLong("mobile_no"));
+						studentList.setEmailId(resultSet.getString("email"));
+						studentList.setPassword(resultSet.getString("password"));
+
+					}
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DAOException(e);
+			}
+		}
+		return studentList;
+	}
 }
