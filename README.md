@@ -16,7 +16,7 @@ The College Admission App makes it easy for students to apply to college and let
 | gender           | varchar(10)  | NO   |     |                   | CHECK ('Male', 'Female', 'Others') |
 | dob              | date         | YES  |     |                   |                             |
 | mobile_no        | bigint       | NO   |     |                   |                             |
-| email            | varchar(100) | NO   | UNI |                   |                             |
+| email            | varchar(100) | NO   | UNI |                   | CONSTRAINT email_id_chk CHECK (email LIKE '%_@__%.__%')                    |
 | password         | varchar(100) | NO   |     |                   |                             |
 | created_date     | timestamp    |      |     | current_timestamp |                             |
 | status           | tinyint      |      |     | 1                 |                             |
@@ -27,7 +27,7 @@ The College Admission App makes it easy for students to apply to college and let
 | Column  | Type         | Null | Key  | Default           | Extra          |
 |---------|--------------|------|------|-------------------|----------------|
 | id      | int          |      | PRI  |    |                |
-| name    | varchar(100) | NO   | UNI  |                   |                |
+| name    | varchar(100) | NO   | UNI  |                   |     CONSTRAINT dept_name_chk CHECK (dept_name IN ('CSE','ECE', 'EEE', 'MECH','IT'))       |
 
 
 ## student_class Table
