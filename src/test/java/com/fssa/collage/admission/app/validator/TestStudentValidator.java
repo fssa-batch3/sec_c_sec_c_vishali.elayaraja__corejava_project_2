@@ -32,7 +32,7 @@ class TestStudentValidator {
 		student.setFirstName("yazhini");
 		student.setGender("Female");
 		student.setLastName("Elayaraja");
-		student.setIsActive(true);
+		student.setStatus("pending");
 		student.setMobileNumber(8778345632L);
 		student.setPassword("password12");
 		Assertions.assertTrue(StudentValidator.validateStudent(student));

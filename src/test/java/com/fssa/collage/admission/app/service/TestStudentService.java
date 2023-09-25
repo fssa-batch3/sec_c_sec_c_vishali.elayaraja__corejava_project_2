@@ -20,6 +20,7 @@ class TestStudentService {
 	 * @throws InvalidStudentException If the student data is invalid
 	 * @throws DAOException
 	 */
+	StudentService studentService = new StudentService();
 
 	@Test
 	void testAddStudent() throws SQLException, InvalidStudentException, DAOException {
@@ -27,13 +28,13 @@ class TestStudentService {
 		student.setFirstName("mathan");
 		student.setLastName("kumar");
 		student.setGender("male");
-		student.setDob(LocalDate.of(2005,9,4));
-		student.setEmailId("mathankumar@gmail.com.com");
+		student.setDob(LocalDate.of(2005, 9, 4));
+		student.setEmailId("mathankumr@gmail.com.com");
 		student.setPassword("Passwor10%");
-		student.setMobileNumber(9445856967L);
-		student.setIsActive(true);
+		student.setMobileNumber(9445856960L);
+		student.setStatus("pending");
 
-		Assertions.assertTrue(StudentService.addStudent(student, "CSE"));
+		Assertions.assertTrue(studentService.addStudent(student, "CSE"));
 	}
 
 	/**
@@ -49,7 +50,7 @@ class TestStudentService {
 	void testInvalidAddStudents() throws DAOException, SQLException, InvalidStudentException {
 
 		try {
-			StudentService.addStudent(null, null);
+			studentService.addStudent(null, null);
 			Assertions.fail("Cannot add a new Student");
 		} catch (InvalidStudentException e) {
 			Assertions.assertEquals(StudentsErrors.INVALID_STUDENT, e.getMessage());
@@ -75,7 +76,7 @@ class TestStudentService {
 		student.setMobileNumber(9445756978L);
 		// student.setId(7);
 
-		Assertions.assertTrue(StudentService.updateStudent(student));
+		Assertions.assertTrue(studentService.updateStudent(student));
 
 	}
 
@@ -90,7 +91,7 @@ class TestStudentService {
 	@Test
 	void testInvalidUpdateStudent() throws DAOException, SQLException, InvalidStudentException {
 		try {
-			StudentService.updateStudent(null);
+			studentService.updateStudent(null);
 			Assertions.fail("Invalid Student");
 		} catch (InvalidStudentException e) {
 
@@ -108,7 +109,7 @@ class TestStudentService {
 	@Test
 	void testRemoveStudent() throws DAOException, InvalidStudentException {
 
-		Assertions.assertTrue(StudentService.removeStudent(16));
+		Assertions.assertTrue(studentService.removeStudent("", false));
 
 	}
 
@@ -120,10 +121,10 @@ class TestStudentService {
 	@Test
 	void testInvalidRemoveStudent() throws DAOException {
 		try {
-			Assertions.assertTrue(StudentService.removeStudent(-1));
+			Assertions.assertTrue(studentService.removeStudent("", false));
 			Assertions.fail("Invalid Student");
 		} catch (InvalidStudentException e) {
-			
+
 			Assertions.assertEquals(StudentsErrors.INVALID_ID, e.getMessage());
 		}
 	}
@@ -175,8 +176,8 @@ class TestStudentService {
 
 	@Test
 	void testValidFindStudentByName() throws DAOException, SQLException, InvalidStudentException {
-
-		Assertions.assertNotNull(StudentService.findStudentByName("pranaw", "murugesan"));
+		StudentService studentService = new StudentService();
+		Assertions.assertNotNull(studentService.findStudentByName("pranaw"));
 
 	}
 
@@ -190,9 +191,9 @@ class TestStudentService {
 
 	@Test
 	void testInvalidfindStudentByName() throws DAOException, SQLException, InvalidStudentException {
-
+		StudentService studentService = new StudentService();
 		try {
-			Assertions.assertNotNull(StudentService.findStudentByName("b", "0"));
+			Assertions.assertNotNull(studentService.findStudentByName("b"));
 			Assertions.fail("Student not found");
 		} catch (InvalidStudentException e) {
 			Assertions.assertEquals(StudentsErrors.INVALID_NAME, e.getMessage());
@@ -210,7 +211,7 @@ class TestStudentService {
 	@Test
 	void testValidFindStudentByEmail() throws DAOException, SQLException, InvalidStudentException {
 
-		Assertions.assertNotNull(StudentService.findStudentByEmail("vishali@gmail.com"));
+		Assertions.assertNotNull(studentService.findStudentByEmail("vishali@gmail.com"));
 
 	}
 
@@ -226,7 +227,7 @@ class TestStudentService {
 	void testInvalidfindStudentByEmail() throws DAOException, SQLException, InvalidStudentException {
 
 		try {
-			Assertions.assertNotNull(StudentService.findStudentByEmail("vishali.com"));
+			Assertions.assertNotNull(studentService.findStudentByEmail("vishali.com"));
 			Assertions.fail("Invalid Student");
 		} catch (InvalidStudentException e) {
 			Assertions.assertEquals(StudentsErrors.INVALID_EMAIL, e.getMessage());

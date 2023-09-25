@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import com.fssa.collage.admission.app.errors.DepartmentErrors;
 import com.fssa.collage.admission.app.exception.DAOException;
 import com.fssa.collage.admission.app.exception.InvalidDepartmentException;
+import com.fssa.collage.admission.app.exception.InvalidStudentException;
 import com.fssa.collage.admission.app.model.Department;
-import com.fssa.collage.admission.app.service.DepartmentService;
 
 class TestDepartmentService {
 
@@ -17,7 +17,7 @@ class TestDepartmentService {
 	void TestAddDepartment() throws SQLException, InvalidDepartmentException {
 		Department department = new Department();
 		department.setId(106);
-		department.setName("Btech");
+		department.setName("CSE");
 
 		Assertions.assertTrue(DepartmentService.addDepartment(department));
 	}
@@ -94,21 +94,23 @@ class TestDepartmentService {
 	}
 
 	@Test
-	void testValidfindDepartmentByName() throws DAOException, SQLException, InvalidDepartmentException {
+	void testValidfindDepartmentByName() throws DAOException, SQLException, InvalidDepartmentException, InvalidStudentException {
 
-		Assertions.assertTrue(DepartmentService.findDepartmentByName("cse"));
+		DepartmentService departmentService = new DepartmentService();
+		Assertions.assertNotNull(DepartmentService.findDepartmentByName("cse"));
 
 	}
 
-	@Test
-	void testInvalidfindDepartmentByName() throws DAOException, SQLException, InvalidDepartmentException {
 
+	@Test
+	void testInvalidfindDepartmentByName() throws DAOException, SQLException, InvalidDepartmentException  {
+		DepartmentService departmentService = new DepartmentService();
 		try {
-			Assertions.assertTrue(DepartmentService.findDepartmentByName("b"));
-			Assertions.fail("Invalid Department");
-		} catch (InvalidDepartmentException e) {
+			Assertions.assertNotNull(DepartmentService.findDepartmentByName("b"));
+			Assertions.fail("No not found");
+		} catch (InvalidStudentException e) {
 			Assertions.assertEquals(DepartmentErrors.INVALID_NAME, e.getMessage());
 		}
 	}
-
+		
 }

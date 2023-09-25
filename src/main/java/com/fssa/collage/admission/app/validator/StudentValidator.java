@@ -30,6 +30,20 @@ public class StudentValidator {
 		return true;
 
 	}
+	public static boolean validateStudentApplyForm(Student student) throws InvalidStudentException {
+		if (student == null) {
+			throw new InvalidStudentException(StudentsErrors.INVALID_STUDENT);
+		}
+		validateFirstName(student.getFirstName());
+		validateLastName(student.getLastName());
+		validateEmail(student.getEmailId());
+		validateGender(student.getGender());
+		validateDateOfBirth(student.getDob());
+		validateMobileNumber(student.getMobileNumber());
+
+		return true;
+
+	}
 
 	/**
 	 * first name must contain only aphabets.length can be between 2 - 30 characters
@@ -80,7 +94,7 @@ public class StudentValidator {
 	}
 
 	public static boolean validateGender(String gender) throws InvalidStudentException {
-		String genderLowerCase = gender.toLowerCase();
+		String genderLowerCase = gender.toLowerCase().trim();
 		if (genderLowerCase.equals("male") || genderLowerCase.equals("female") || genderLowerCase.equals("others")) {
 			return true;
 		} else {

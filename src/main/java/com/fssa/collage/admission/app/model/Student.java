@@ -14,15 +14,33 @@ public class Student {
 	private String gender;
 	private LocalDate dob;
 	private LocalDateTime created_date;
-	private Boolean isActive;
+	private String Status;
 	private String applicationNo;
+	private String department;
+	private boolean isActive;
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 
 	public Student() {
 //		default constructor
 	}
 
 	public Student(int id, String applicationNo, String firstName, String lastName, long mobileNumber, String emailId,
-			String password, String gender, LocalDate dob, LocalDateTime created_date, Boolean isActive) {
+			String password, String gender, LocalDate dob, LocalDateTime created_date, String Status) {
 		super();
 		this.id = id;
 		this.applicationNo = applicationNo;
@@ -34,7 +52,7 @@ public class Student {
 		this.gender = gender;
 		this.dob = dob;
 		this.created_date = created_date;
-		this.isActive = isActive;
+		this.Status = Status;
 
 	}
 
@@ -120,13 +138,13 @@ public class Student {
 		this.created_date = created_date;
 	}
 
-	public Boolean getIsActive() {
+	public String getStatus() {
 
-		return isActive;
+		return Status;
 	}
 
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
+	public void setStatus(String Status) {
+		this.Status = Status;
 	}
 
 	public String fullName() {
@@ -135,9 +153,9 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "User [  firstName=" + firstName + ", lastName=" + lastName + ", email=" + emailId + ", password="
-				+ password + ", gender=" + gender + ", mobileNumber=" + mobileNumber + ", dob=" + dob
-				+ ", created_date=" + created_date + ", isActive=" + isActive + "]";
-
+		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", mobileNumber="
+				+ mobileNumber + ", emailId=" + emailId + ", password=" + password + ", gender=" + gender + ", dob="
+				+ dob + ", created_date=" + created_date + ", Status=" + Status + ", applicationNo=" + applicationNo
+				+ ", department=" + department + ", isActive=" + isActive + "]";
 	}
 }

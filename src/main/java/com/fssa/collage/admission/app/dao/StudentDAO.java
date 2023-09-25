@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.fssa.collage.admission.app.errors.StudentsErrors;
 import com.fssa.collage.admission.app.exception.DAOException;
 import com.fssa.collage.admission.app.exception.InvalidStudentException;
 import com.fssa.collage.admission.app.model.Student;
@@ -23,7 +21,7 @@ import com.fssa.collage.admission.app.validator.StudentValidator;
 
 public class StudentDAO {
 
-	private StudentDAO() {
+	public StudentDAO() {
 		// Private constructor to prevent instantiation.
 	}
 
@@ -39,7 +37,10 @@ public class StudentDAO {
 		// Implementation
 		List<Student> studentList = new ArrayList<>();
 		try (Connection connection = ConnectionUtil.getConnection()) {
-			String query = "SELECT * FROM students";
+			String query = "SELECT student_class.id, students.first_name,students.last_name,students.gender,students.dob,students.mobile_no,students.email,departments.dept_name,student_class.status\r\n"
+					+ "FROM students\r\n" + "JOIN student_class \r\n" + "ON students.id = student_class.student_id\r\n"
+					+ "join departments\r\n"
+					+ "on student_class.department_id = departments.id where students.status = 1";
 			try (Statement statement = connection.createStatement()) {
 
 				try (ResultSet resultSet = statement.executeQuery(query)) {
@@ -52,10 +53,10 @@ public class StudentDAO {
 						student.setGender(resultSet.getString("gender"));
 						student.setDob(resultSet.getDate("dob").toLocalDate());
 						student.setEmailId(resultSet.getString("email"));
-						student.setPassword(resultSet.getString("password"));
-						student.setIsActive(resultSet.getBoolean("status"));
+						student.setMobileNumber(resultSet.getLong("mobile_no"));
+						student.setStatus(resultSet.getString("status"));
+						student.setDepartment(resultSet.getString("dept_name"));
 						studentList.add(student);
-
 					}
 					return studentList;
 				}
@@ -129,18 +130,14 @@ public class StudentDAO {
 	public static boolean updateStudent(Student student) throws DAOException, InvalidStudentException {
 
 		try (Connection connection = ConnectionUtil.getConnection()) {
-			String query = "UPDATE students SET first_name = ?,last_name=?,gender=?,dob=?,"
-					+ "  password = ?, mobile_no = ? WHERE id = ?";
+			String query = "UPDATE students SET first_name = ?,last_name=?," + " mobile_no = ? WHERE email = ?";
 
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
 
 				pst.setString(1, student.getFirstName());
 				pst.setString(2, student.getLastName());
-				pst.setString(3, student.getGender());
-				pst.setDate(4, Date.valueOf(student.getDob()));
-				pst.setString(5, student.getPassword());
-				pst.setLong(6, student.getMobileNumber());
-				pst.setInt(7, getIdByStudentEmail(student.getEmailId()));
+				pst.setLong(3, student.getMobileNumber());
+				pst.setString(4, student.getEmailId());
 
 				int rows = pst.executeUpdate();
 
@@ -163,13 +160,14 @@ public class StudentDAO {
 	 * @throws DAOException            If there's an issue with the database.
 	 * @throws InvalidStudentException If the student ID is invalid.
 	 */
-	public static boolean removeStudent(int id) throws DAOException, InvalidStudentException {
+	public static boolean removeStudent(String email, boolean status) throws DAOException, InvalidStudentException {
 
 		try (Connection connection = ConnectionUtil.getConnection()) {
-			String query = "DELETE FROM students WHERE id = ? ";
+			String query = "UPDATE students SET status = ? WHERE email = ?";
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
 
-				pst.setInt(1, id);
+				pst.setBoolean(1, status);
+				pst.setString(2, email);
 
 				int rows = pst.executeUpdate();
 
@@ -226,28 +224,26 @@ public class StudentDAO {
 		return studentList;
 	}
 
-	public static List<Student> findStudentByName(String firstName, String lastName)
+	public static List<Student> findStudentByName(String firstName)
 			throws DAOException, SQLException, InvalidStudentException {
 
 		List<Student> studentList = new ArrayList<>();
 		try (Connection connection = ConnectionUtil.getConnection()) {
 
-			String query = "SELECT * FROM students WHERE first_name = ? AND last_name =?";
+			String query = "SELECT * FROM students WHERE first_name  LIKE ?";
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
-				pst.setString(1, firstName);
-				pst.setString(2, lastName);
+				pst.setString(1, "%" + firstName + "%");
+
 				try (ResultSet resultSet = pst.executeQuery()) {
 					while (resultSet.next()) {
 						Student student = new Student();
-						student.setId(resultSet.getInt("Id"));
 						student.setFirstName(resultSet.getString("first_name"));
 						student.setLastName(resultSet.getString("last_name"));
 						student.setGender(resultSet.getString("gender"));
 						student.setDob(resultSet.getDate("dob").toLocalDate());
 						student.setEmailId(resultSet.getString("email"));
 						student.setMobileNumber(resultSet.getLong("mobile_no"));
-						student.setPassword(resultSet.getString("password"));
-						student.setIsActive(resultSet.getBoolean("status"));
+						student.setStatus(resultSet.getString("status"));
 						studentList.add(student);
 					}
 
@@ -259,6 +255,63 @@ public class StudentDAO {
 		}
 		return studentList;
 	}
+
+	public static boolean updatingStatusOfStudent(int id, String status) throws DAOException, InvalidStudentException {
+
+		try (Connection connection = ConnectionUtil.getConnection()) {
+			String query = "UPDATE student_class SET status = ? WHERE id = ?";
+
+			try (PreparedStatement pst = connection.prepareStatement(query)) {
+
+				pst.setString(1, status);
+				pst.setInt(2, id);
+
+				int rows = pst.executeUpdate();
+
+				return (rows > 0);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException(e.getMessage());
+		}
+	}
+
+//	public static List<Student> getAllStudents() throws DAOException, SQLException {
+//		// Implementation
+//		List<Student> studentList = new ArrayList<>();
+//		try (Connection connection = ConnectionUtil.getConnection()) {
+//			String query = "SELECT students.first_name,students.last_name,students.gender,\r\n"
+//					+ "students.dob,students.mobile_no,students.email,student_class.status\r\n"
+//					+ "FROM students \r\n"
+//					+ "JOIN student_class\r\n"
+//					+ "ON students.id = student_class.student_id";
+//			try (Statement statement = connection.createStatement()) {
+//
+//				try (ResultSet resultSet = statement.executeQuery(query)) {
+//
+//					while (resultSet.next()) {
+//						Student student = new Student();
+//						student.setFirstName(resultSet.getString("first_name"));
+//						student.setLastName(resultSet.getString("last_name"));
+//						student.setGender(resultSet.getString("gender"));
+//						student.setDob(resultSet.getDate("dob").toLocalDate());
+//						student.setEmailId(resultSet.getString("email"));
+//						student.setPassword(resultSet.getString("password"));
+//						student.setMobileNumber(resultSet.getLong("mobile_no"));
+//						student.setIsActive(resultSet.getBoolean("status"));
+//						studentList.add(student);
+//					}
+//					return studentList;
+//				}
+//			} catch (SQLException e) {
+//
+//				e.printStackTrace();
+//				throw new DAOException("unable to retrive student list");
+//			}
+//
+//		}
+//
+//	}
 
 	/**
 	 * Checks if a student with the given email exists in the database.
@@ -284,6 +337,30 @@ public class StudentDAO {
 		return false;
 	}
 
+	public static void main(String[] args) throws DAOException, SQLException, InvalidStudentException {
+		Student s = findStudentByEmail("pranaw@gmail.com");
+		System.out.println(s);
+	}
+
+	public static boolean login(String email, String password) throws DAOException {
+		try (Connection con = ConnectionUtil.getConnection()) {
+			String query = "SELECT email FROM students WHERE email = ? AND password = ? AND status = 1";
+			try (PreparedStatement psmt = con.prepareStatement(query)) {
+				psmt.setString(1, email);
+				psmt.setString(2, password);
+				// Executes the delete query.
+				try (ResultSet resultSet = psmt.executeQuery()) {
+					if (resultSet.next()) {
+						return true;
+					}
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e.getMessage());
+		}
+		return false;
+	}
+
 	/**
 	 * Finds a student by their email in the database.
 	 *
@@ -296,7 +373,6 @@ public class StudentDAO {
 	 */
 
 	public static Student findStudentByEmail(String email) throws DAOException, SQLException, InvalidStudentException {
-		StudentValidator.validateEmail(email);
 
 		Student studentList = new Student();
 		try (Connection connection = ConnectionUtil.getConnection()) {
@@ -314,7 +390,44 @@ public class StudentDAO {
 						studentList.setMobileNumber(resultSet.getLong("mobile_no"));
 						studentList.setEmailId(resultSet.getString("email"));
 						studentList.setPassword(resultSet.getString("password"));
+						studentList.setActive(resultSet.getBoolean("status"));
 
+					}
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DAOException(e);
+			}
+		}
+		return studentList;
+	}
+
+	public static List<Student> getApplicationByEmail(String email)
+			throws DAOException, SQLException, InvalidStudentException {
+
+		List<Student> studentList = new ArrayList<>();
+		try (Connection connection = ConnectionUtil.getConnection()) {
+
+			String query = "SELECT student_class.id,students.first_name,students.last_name,students.gender,students.dob,students.mobile_no,students.email,departments.dept_name,student_class.status\r\n"
+					+ "FROM students\r\n" + "JOIN student_class \r\n" + "ON students.id = student_class.student_id\r\n"
+					+ "join departments\r\n" + "on student_class.department_id = departments.id \r\n"
+					+ "where students.email=?";
+			try (PreparedStatement pst = connection.prepareStatement(query)) {
+				pst.setString(1, email);
+				try (ResultSet resultSet = pst.executeQuery()) {
+					while (resultSet.next()) {
+						Student student = new Student();
+						student.setId(resultSet.getInt("id"));
+						student.setFirstName(resultSet.getString("first_name"));
+						student.setLastName(resultSet.getString("last_name"));
+						student.setGender(resultSet.getString("gender"));
+						student.setDob(resultSet.getDate("dob").toLocalDate());
+						student.setEmailId(resultSet.getString("email"));
+						student.setMobileNumber(resultSet.getLong("mobile_no"));
+						student.setStatus(resultSet.getString("status"));
+						student.setDepartment(resultSet.getString("dept_name"));
+						studentList.add(student);
 					}
 
 				}

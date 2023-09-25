@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.fssa.collage.admission.app.exception.DAOException;
 import com.fssa.collage.admission.app.exception.InvalidDepartmentException;
+import com.fssa.collage.admission.app.exception.InvalidStudentException;
 import com.fssa.collage.admission.app.model.Department;
 import com.fssa.collage.admission.app.model.Student;
 import com.fssa.collage.admission.app.util.ConnectionUtil;
@@ -56,14 +57,12 @@ public class DepartmentDAO {
 		}
 
 		try (Connection connection = ConnectionUtil.getConnection()) {
-			String query1 = "INSERT INTO departments(id,name) VALUES (101,CSE);";
-			String query2 = "INSERT INTO departments(id,name) VALUES (102,MECH);";
-			String query3 = "INSERT INTO departments(id,name) VALUES (103,EEE);";
-			String query4 = "INSERT INTO departments(id,name) VALUES (104,ECE);";
-			String query5 = "INSERT INTO departments(id,name) VALUES (105,IT);";
+			String query2 = "INSERT INTO departments(id,dept_name) VALUES (102,MECH);";
+			String query3 = "INSERT INTO departments(id,dept_name) VALUES (103,EEE);";
+			String query4 = "INSERT INTO departments(id,dept_name) VALUES (104,ECE);";
+			String query5 = "INSERT INTO departments(id,dept_name) VALUES (105,IT);";
 			try (Statement statement = connection.createStatement()) {
 
-				statement.addBatch(query1);
 				statement.addBatch(query2);
 				statement.addBatch(query3);
 				statement.addBatch(query4);
@@ -136,27 +135,33 @@ public class DepartmentDAO {
 		}
 
 	}
-
-	public static boolean findDepartmentByName(String name)
+	
+	
+	
+	public static List<Department> findDepartmentByName(String name)
 			throws DAOException, SQLException, InvalidDepartmentException {
-		Department department = new Department();
-		DepartmentValidator.validateDepartmentName(name);
+
+		List<Department> departmentList = new ArrayList<>();
 		try (Connection connection = ConnectionUtil.getConnection()) {
 
-			String query = "SELECT * FROM Departments WHERE dept_name = ?";
+			String query = "SELECT * FROM departments WHERE dept_name  LIKE ?";
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
-				pst.setString(1, name);
+				pst.setString(1, "%" + name + "%");
+
 				try (ResultSet resultSet = pst.executeQuery()) {
-					if (resultSet.next()) {
-						department.toString();
+					while (resultSet.next()) {
+						Department department = new Department();
+						
+						department.setId(resultSet.getInt("id"));
+						department.setName( resultSet.getString("dept_name"));
+						departmentList.add(department);
 					}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-				throw new DAOException(e);
+				throw new DAOException(e.getMessage());
 			}
 		}
-		return true;
+		return departmentList;
 	}
-
 }

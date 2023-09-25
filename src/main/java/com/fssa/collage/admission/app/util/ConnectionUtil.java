@@ -13,11 +13,11 @@ public class ConnectionUtil {
 	public static Connection getConnection() {
 		Connection con = null;
 
-	        String url, userName, passWord;
+		String url, userName, passWord;
 
-	            url = System.getenv("DATABASE_HOST");
-	            userName = System.getenv("DATABASE_USERNAME");
-	            passWord = System.getenv("DATABASE_PASSWORD");
+		url = System.getenv("DATABASE_HOST");
+		userName = System.getenv("DATABASE_USERNAME");
+		passWord = System.getenv("DATABASE_PASSWORD");
 
 //		String url = "jdbc:mysql://localhost:3306/collage_management_app";
 //		String userName = "root";

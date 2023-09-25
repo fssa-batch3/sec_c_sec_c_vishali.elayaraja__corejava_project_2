@@ -1,17 +1,21 @@
 package com.fssa.collage.admission.app.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fssa.collage.admission.app.dao.DepartmentDAO;
 import com.fssa.collage.admission.app.exception.DAOException;
 import com.fssa.collage.admission.app.exception.InvalidDepartmentException;
+import com.fssa.collage.admission.app.exception.InvalidStudentException;
 import com.fssa.collage.admission.app.model.Department;
+import com.fssa.collage.admission.app.model.Student;
 import com.fssa.collage.admission.app.validator.DepartmentValidator;
 
 public class DepartmentService {
 	
 
-		private DepartmentService() {
+		public DepartmentService() {
 //			private constructor
 		}
 
@@ -34,6 +38,7 @@ public class DepartmentService {
 			}
 			return true;
 
+			
 		}
 
 		public static boolean removeDepartment(int id) throws InvalidDepartmentException, DAOException, SQLException {
@@ -43,12 +48,13 @@ public class DepartmentService {
 			return true;
 		}
 
-		public static boolean findDepartmentByName(String name)
-				throws InvalidDepartmentException, DAOException, SQLException {
+		public static List<Department> findDepartmentByName(String name)
+				throws InvalidDepartmentException, DAOException, SQLException, InvalidStudentException {
+			List<Department> departmentList = new ArrayList<>();
 			if (DepartmentValidator.validateDepartmentName(name)) {
 				DepartmentDAO.findDepartmentByName(name);
 			}
-			return true;
+			return departmentList;
 
 		}
 

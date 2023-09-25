@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fssa.collage.admission.app.dto.StudentDeptDTO;
+import com.fssa.collage.admission.app.exception.DAOException;
 import com.fssa.collage.admission.app.model.Student;
 import com.fssa.collage.admission.app.util.ConnectionUtil;
 
 public class StudentDepartmentDAO {
 
-	public static boolean AddStudentDept(Student student, String departmentName) throws SQLException {
+	public static boolean AddStudentDept(Student student, String departmentName) throws DAOException {
 		try (Connection connection = ConnectionUtil.getConnection()) {
 			String query = "INSERT INTO student_class (student_id,department_id) VALUES (?,?)";
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
@@ -22,6 +23,11 @@ public class StudentDepartmentDAO {
 				int row = pst.executeUpdate();
 				return (row > 0);
 			}
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+			throw new DAOException(e.getMessage());
 		}
 
 	}

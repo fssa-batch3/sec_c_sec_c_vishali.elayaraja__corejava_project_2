@@ -10,7 +10,7 @@ public interface StudentsErrors {
 	public static final String INVALID_NAME = "Student name cannot be null or less than 2 characters";
 	public static final String INVALID_DOB = "DOB cannot be null or lesser then 18";
 	public static final String INVALID_EMAIL = "Email should contain @ and shouldn't have spaces";
-	public static final String INVALID_MOBILE_NUMBER = "Mobile number cannot be null";
+	public static final String INVALID_MOBILE_NUMBER = "Invalid mobile number";
 	public static final String INVALID_PASSWORD = "Minimum eight character and must contain one special character";
 
 }

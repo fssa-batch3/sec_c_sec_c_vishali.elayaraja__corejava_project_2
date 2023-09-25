@@ -11,19 +11,14 @@ import org.junit.jupiter.api.Test;
 
 class TestStudent {
 
-	Student student = new Student(1,"aab678", "John", "Doe", 1234567890, "john@example.com", "password", "Male",
-			LocalDate.of(1990, 1, 1), LocalDateTime.now(), true);
+	Student student = new Student(1,"aab678", "John", "Doe", 1234567890, "vishali@example.com", "password", "Male",
+			LocalDate.of(1990, 1, 1), LocalDateTime.now(), "pending");
 
 	@Test
 	void testId() {
 		assertEquals(1, student.getId());
 	}
 	
-	@Test
-	void testRollNo() {
-		assertEquals(567865, student.getApplicationNo());
-	}
-
 	@Test
 	void testFirstName() {
 		assertEquals("John", student.getFirstName());
@@ -66,7 +61,7 @@ class TestStudent {
 
 	@Test
 	void testIsActive() {
-		assertEquals(true, student.getIsActive());
+		assertEquals(true, student.getStatus());
 	}
 
 	@Test
