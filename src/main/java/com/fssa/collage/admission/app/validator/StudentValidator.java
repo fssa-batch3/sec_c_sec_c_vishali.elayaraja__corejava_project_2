@@ -30,6 +30,7 @@ public class StudentValidator {
 		return true;
 
 	}
+
 	public static boolean validateStudentApplyForm(Student student) throws InvalidStudentException {
 		if (student == null) {
 			throw new InvalidStudentException(StudentsErrors.INVALID_STUDENT);
@@ -83,7 +84,7 @@ public class StudentValidator {
 	}
 
 	public static boolean validateEmail(String emailId) throws InvalidStudentException {
-		String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+		String regex = "^[A-Za-z0-9+_.-]+@[^\\s]+\\.(.+)$";
 		boolean matches = Pattern.compile(regex).matcher(emailId).matches();
 		if (matches) {
 			return true;

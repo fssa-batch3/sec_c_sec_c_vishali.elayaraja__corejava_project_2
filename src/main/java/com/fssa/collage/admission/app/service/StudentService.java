@@ -32,6 +32,25 @@ public class StudentService {
 	 * @throws DAOException            If a data access error occurs.
 	 */
 
+//	public static boolean addStudent(Student student, String departmentName) {
+//
+//		try {
+//			if (StudentValidator.validateStudentApplyForm(student)
+//					&& (StudentDAO.checkStudentExists(student.getEmailId()))
+//					&& !StudentDepartmentDAO.isAlreadyApplied(student.getEmailId(), departmentName)) {
+//
+//				StudentDepartmentDAO.AddStudentDept(student, departmentName);
+//
+//			}
+//		} catch (InvalidStudentException | SQLException | DAOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return true;
+//
+//	}
+	
+	
 	public static boolean addStudent(Student student, String departmentName)
 			throws InvalidStudentException, SQLException, DAOException {
 
@@ -163,7 +182,6 @@ public class StudentService {
 		return studentList;
 	}
 
-
 	/**
 	 * Finds a student by their ID.
 	 *
@@ -190,8 +208,6 @@ public class StudentService {
 		}
 		return false;
 	}
-	
-	
 
 	public static boolean login(String email, String password)
 			throws InvalidStudentException, DAOException, SQLException {

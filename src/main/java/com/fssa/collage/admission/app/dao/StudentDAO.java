@@ -230,13 +230,19 @@ public class StudentDAO {
 		List<Student> studentList = new ArrayList<>();
 		try (Connection connection = ConnectionUtil.getConnection()) {
 
-			String query = "SELECT * FROM students WHERE first_name  LIKE ?";
+			String query = "SELECT students.id, students.first_name, students.last_name, students.gender, students.dob, students.mobile_no, students.email, departments.dept_name, student_class.status\r\n"
+					+ "FROM students\r\n"
+					+ "JOIN student_class ON students.id = student_class.student_id\r\n"
+					+ "JOIN departments ON student_class.department_id = departments.id\r\n"
+					+ "WHERE students.status = 1\r\n"
+					+ "AND students.first_name LIKE ?;";
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
 				pst.setString(1, "%" + firstName + "%");
 
 				try (ResultSet resultSet = pst.executeQuery()) {
 					while (resultSet.next()) {
 						Student student = new Student();
+						student.setId(resultSet.getInt("id"));
 						student.setFirstName(resultSet.getString("first_name"));
 						student.setLastName(resultSet.getString("last_name"));
 						student.setGender(resultSet.getString("gender"));
@@ -244,6 +250,7 @@ public class StudentDAO {
 						student.setEmailId(resultSet.getString("email"));
 						student.setMobileNumber(resultSet.getLong("mobile_no"));
 						student.setStatus(resultSet.getString("status"));
+						student.setDepartment(resultSet.getString("dept_name"));
 						studentList.add(student);
 					}
 
@@ -337,10 +344,6 @@ public class StudentDAO {
 		return false;
 	}
 
-	public static void main(String[] args) throws DAOException, SQLException, InvalidStudentException {
-		Student s = findStudentByEmail("pranaw@gmail.com");
-		System.out.println(s);
-	}
 
 	public static boolean login(String email, String password) throws DAOException {
 		try (Connection con = ConnectionUtil.getConnection()) {
@@ -402,6 +405,9 @@ public class StudentDAO {
 		}
 		return studentList;
 	}
+	
+	
+//		
 
 	public static List<Student> getApplicationByEmail(String email)
 			throws DAOException, SQLException, InvalidStudentException {

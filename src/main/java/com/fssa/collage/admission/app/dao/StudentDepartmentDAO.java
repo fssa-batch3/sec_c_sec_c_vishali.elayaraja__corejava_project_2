@@ -32,6 +32,36 @@ public class StudentDepartmentDAO {
 
 	}
 
+	public static void main(String[] args) throws DAOException, SQLException {
+		System.out.println(isAlreadyApplied("pranaw@gmail.com", "EEE"));
+	}
+
+	public static boolean isAlreadyApplied(String email, String departmentName) throws DAOException, SQLException {
+		try (Connection connection = ConnectionUtil.getConnection()) {
+			String query = "SELECT * FROM student_class WHERE student_id = ? AND department_id= ?";
+			try (PreparedStatement pst = connection.prepareStatement(query)) {
+				pst.setInt(1, getStudentIdByEmail(email));
+				pst.setInt(2, getDepartmentIdByName(departmentName));
+				try (ResultSet resultSet = pst.executeQuery()) {
+					if (resultSet.next()) {
+						Student s = new Student();
+						s.setEmailId(resultSet.getString("email"));
+						s.setDepartment(resultSet.getString("dept_name"));
+
+					}
+					return true;
+				}
+
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+				throw new DAOException("You have already applied for this department");
+			}
+
+		}
+
+	}
+
 	public static int getStudentIdByEmail(String email) throws SQLException {
 		int id = 0;
 		try (Connection connection = ConnectionUtil.getConnection()) {
