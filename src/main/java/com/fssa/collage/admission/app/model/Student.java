@@ -156,6 +156,6 @@ public class Student {
 		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", mobileNumber="
 				+ mobileNumber + ", emailId=" + emailId + ", password=" + password + ", gender=" + gender + ", dob="
 				+ dob + ", created_date=" + created_date + ", Status=" + Status + ", applicationNo=" + applicationNo
-				+ ", department=" + department + ", isActive=" + isActive + "]";
+				+ ", department=" + department + ", isActive=" + isActive + "]\n";
 	}
 }

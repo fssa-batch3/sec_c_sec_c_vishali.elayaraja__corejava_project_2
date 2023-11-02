@@ -30,7 +30,7 @@ class TestStudentService {
 		student.setGender("male");
 		student.setDob(LocalDate.of(2005, 9, 4));
 		student.setEmailId("mathankumr@gmail.com.com");
-		student.setPassword("Passwor10%");
+		student.setPassword("Passwor10%"); 
 		student.setMobileNumber(9445856960L);
 		student.setStatus("pending");
 

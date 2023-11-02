@@ -7,8 +7,10 @@ import java.util.List;
 import com.fssa.collage.admission.app.dao.StudentDAO;
 import com.fssa.collage.admission.app.dao.StudentDepartmentDAO;
 import com.fssa.collage.admission.app.exception.DAOException;
+import com.fssa.collage.admission.app.exception.InvalidDepartmentException;
 import com.fssa.collage.admission.app.exception.InvalidStudentException;
 import com.fssa.collage.admission.app.model.Student;
+import com.fssa.collage.admission.app.validator.DepartmentValidator;
 import com.fssa.collage.admission.app.validator.StudentValidator;
 
 public class StudentService {
@@ -49,8 +51,7 @@ public class StudentService {
 //		return true;
 //
 //	}
-	
-	
+
 	public static boolean addStudent(Student student, String departmentName)
 			throws InvalidStudentException, SQLException, DAOException {
 
@@ -150,6 +151,14 @@ public class StudentService {
 
 		}
 		return studentList;
+	}
+
+	public static List<Student> listAllStudentsByDepartment(String departmentName)
+			throws DAOException, SQLException, InvalidDepartmentException {
+		if (DepartmentValidator.validateDepartmentName(departmentName)) {
+			return StudentDAO.listAllStudentByDepartment(departmentName);
+		}
+		return null;
 	}
 
 	/**

@@ -70,6 +70,43 @@ public class StudentDAO {
 
 	}
 
+	public static List<Student> listAllStudentByDepartment(String departmentName) throws DAOException, SQLException {
+
+		List<Student> studentList = new ArrayList<Student>();
+
+		try (Connection connection = ConnectionUtil.getConnection()) {
+			String query = "SELECT student_class.id,students.first_name,students.last_name,students.gender,students.dob,students.mobile_no,students.email,departments.dept_name,student_class.status\r\n"
+					+ "FROM students\r\n" + "JOIN student_class \r\n" + "ON students.id = student_class.student_id\r\n"
+					+ "join departments\r\n" + "on student_class.department_id = departments.id \r\n"
+					+ "where students.status = 1 and departments.dept_name = ?";
+			try (PreparedStatement pst = connection.prepareStatement(query)) {
+				pst.setString(1, departmentName);
+				try (ResultSet resultSet = pst.executeQuery()) {
+					while (resultSet.next()) {
+						Student student = new Student();
+						student.setId(resultSet.getInt("id"));
+						student.setFirstName(resultSet.getString("first_name"));
+						student.setLastName(resultSet.getString("last_name"));
+						student.setGender(resultSet.getString("gender"));
+						student.setDob(resultSet.getDate("dob").toLocalDate());
+						student.setEmailId(resultSet.getString("email"));
+						student.setMobileNumber(resultSet.getLong("mobile_no"));
+						student.setStatus(resultSet.getString("status"));
+						student.setDepartment(resultSet.getString("dept_name"));
+						studentList.add(student);
+					}
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new DAOException(e.getMessage());
+			}
+		}
+
+		return studentList;
+
+	}
+
 	/**
 	 * Adds a new student to the database.
 	 *
@@ -231,11 +268,9 @@ public class StudentDAO {
 		try (Connection connection = ConnectionUtil.getConnection()) {
 
 			String query = "SELECT students.id, students.first_name, students.last_name, students.gender, students.dob, students.mobile_no, students.email, departments.dept_name, student_class.status\r\n"
-					+ "FROM students\r\n"
-					+ "JOIN student_class ON students.id = student_class.student_id\r\n"
+					+ "FROM students\r\n" + "JOIN student_class ON students.id = student_class.student_id\r\n"
 					+ "JOIN departments ON student_class.department_id = departments.id\r\n"
-					+ "WHERE students.status = 1\r\n"
-					+ "AND students.first_name LIKE ?;";
+					+ "WHERE students.status = 1\r\n" + "AND students.first_name LIKE ?";
 			try (PreparedStatement pst = connection.prepareStatement(query)) {
 				pst.setString(1, "%" + firstName + "%");
 
@@ -344,7 +379,6 @@ public class StudentDAO {
 		return false;
 	}
 
-
 	public static boolean login(String email, String password) throws DAOException {
 		try (Connection con = ConnectionUtil.getConnection()) {
 			String query = "SELECT email FROM students WHERE email = ? AND password = ? AND status = 1";
@@ -405,8 +439,7 @@ public class StudentDAO {
 		}
 		return studentList;
 	}
-	
-	
+
 //		
 
 	public static List<Student> getApplicationByEmail(String email)
